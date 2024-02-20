@@ -131,14 +131,14 @@ form {
     }
 
     button {
-        background-color: orange;
+        background-color: $btncolor;
         width: 200px;
         height: 70px;
         font-size: 40px;
         font-weight: 800;
-        color: white;
+        color: $whiteblue;
         border-radius: 20px;
-        border: 1px solid orange;
+        border: 1px solid $btncolor;
     }
 
  }
