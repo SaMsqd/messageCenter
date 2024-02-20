@@ -601,11 +601,11 @@
       </data>
       <graph edgedefault="directed" id="n6:"/>
     </node>
-    <node id="n7" yfiles.foldertype="group">
+    <node id="n7" yfiles.foldertype="folder">
       <data key="d4" xml:space="preserve"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
-          <y:Realizers active="0">
+          <y:Realizers active="1">
             <y:GroupNode>
               <y:Geometry height="149.80660820007324" width="205.0" x="511.0" y="513.5"/>
               <y:Fill color="#F2F0D8" transparent="false"/>
