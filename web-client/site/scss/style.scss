@@ -1,13 +1,144 @@
+@import "vars";
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 * {
     margin: 0;
     padding: 0;
     text-decoration: none;
+    font-family: "Nunito", sans-serif;
 }
 
 body {
-    background-color: #d8d8d8;
+    background-color: $bg;
 }
 
 .wrapper {
     display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+
 }
+
+form {
+    display: flex;
+    position: relative;
+    margin: 40px;
+    width: 800px;
+    height: 90%;
+    background-color: $whiteblue;
+    border-radius: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.form-left-decoration, .form-right-decoration {
+    position: absolute;
+    width: 70px;
+    height: 30px;
+    background: $bg;
+    border-radius: 20px;
+ }
+ .form-left-decoration {
+    bottom: 60px;
+    left: -30px;
+    &::after {
+        content: "";
+        position: absolute;
+        width: 110px;
+        height: 30px;
+        background-color: $whiteblue;
+        border-radius: 20px;
+        top: 30px;
+        right: 10px;
+    }
+    &::before {
+        content: "";
+        position: absolute;
+        width: 70px;
+        height: 30px;
+        background-color: $whiteblue;
+        border-radius: 20px;
+        bottom: 30px; 
+
+    } 
+}
+ .form-right-decoration {
+    top: 80px;
+    right: -30px;
+
+    &::after {
+        content: "";
+        position: absolute;
+        width: 90px;
+        height: 30px;
+        background-color: $whiteblue;
+        border-radius: 20px;
+        top: 30px;
+    }
+    &::before {
+        content: "";
+        position: absolute;
+        width: 70px;
+        height: 30px;
+        background-color: $whiteblue;
+        border-radius: 20px;
+        bottom: 30px; 
+    }
+ }
+
+ .circle {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    background-color: $bg;
+    border-radius: 100px;
+    top: 0;
+    left: 0;
+    margin: 20px;
+ }
+
+ .main-form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 80%;
+
+    justify-content: center;
+    align-items: center;
+
+    // border: 1px solid white;
+
+    .info {
+        display: flex;
+        flex-direction: column;
+
+        margin-bottom: 50px;
+
+        label {
+            font-size: 30px;
+            color: $labelcolor;
+        }
+
+        input {
+            width: 250px;
+            height: 40px;
+            background-color: $bg;
+            border: 2px solid $labelcolor;
+            border-radius: 10px;
+        }
+    }
+
+    button {
+        background-color: orange;
+        width: 200px;
+        height: 70px;
+        font-size: 40px;
+        font-weight: 800;
+        color: white;
+        border-radius: 20px;
+        border: 1px solid orange;
+    }
+
+ }
