@@ -22,6 +22,10 @@
           flex-direction: row;
 }
 
+.__none {
+  display: none;
+}
+
 body {
   background-color: #e4e0e0;
 }
@@ -110,12 +114,13 @@ form {
       -ms-flex-direction: column;
           flex-direction: column;
   padding: 10px;
-  background-color: #3b18c5;
+  background-color: #482faa;
   margin-right: 30px;
   overflow: auto;
   direction: rtl;
+  overflow-x: hidden;
   scrollbar-width: auto; /* for Firefox */
-  scrollbar-color: #3b18c5 white; /* for Firefox */
+  scrollbar-color: #482faa white; /* for Firefox */
 }
 .sidebar ::-webkit-scrollbar {
   width: 40px;
@@ -144,6 +149,16 @@ form {
   direction: ltr;
   width: 100%;
   height: 80px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background-color: #2e67bc;
   border-radius: 10px;
   border: 1px solid #2e67bc;
@@ -163,6 +178,7 @@ form {
 .sidebar .chat .user-info {
   width: 90%;
   height: 100%;
+  position: relative;
   margin-left: 10px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -183,8 +199,14 @@ form {
   background-color: rgba(0, 0, 0, 0.2);
   font-size: 14px;
 }
+.sidebar .chat .new-msg {
+  width: 25px;
+  height: 25px;
+  background-color: white;
+  border-radius: 50%;
+}
 
-.chats {
+.messanger {
   width: 70%;
   height: 100%;
   display: -webkit-box;
@@ -197,6 +219,56 @@ form {
       -ms-flex-align: center;
           align-items: center;
   background-color: #ccd2db;
+}
+.messanger .main {
+  width: 90%;
+  height: 90%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background-color: #2ea7ee;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 20px;
+}
+.messanger .main .msgs {
+  width: 100%;
+  height: 90%;
+  border-radius: 20px;
+  background-color: #00fafa;
+}
+.messanger .main .msg-input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  margin-top: 10px;
+}
+.messanger .main .msg-input .send-message {
+  margin-top: auto;
+  width: 90%;
+  height: 60px;
+  border: 1px solid #1b92c9;
+  border-radius: 20px;
+  background-color: #1b92c9;
+  color: white;
+  padding: 5px;
+  font-size: 20px;
+}
+.messanger .main .msg-input button {
+  margin-left: 20px;
+  -webkit-box-flex: 1;
+      -ms-flex: auto;
+          flex: auto;
+  background-color: white;
+  border-radius: 50%;
 }
 
 .form-left-decoration, .form-right-decoration {

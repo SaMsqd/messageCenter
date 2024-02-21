@@ -17,6 +17,9 @@
     flex-direction: row;
 }
 
+.__none {
+    display: none;
+}
 
 body {
     background-color: $bg;
@@ -104,6 +107,8 @@ form {
     overflow: auto;
     direction: rtl;
 
+    overflow-x: hidden;
+
     scrollbar-width: auto; /* for Firefox */
     scrollbar-color: $bgsidebar white; /* for Firefox */
     
@@ -130,19 +135,21 @@ form {
     }
 
     .chat {
-        
+                    
         cursor: pointer;
         direction: ltr;
         width: 100%;
         height: 80px;
-        
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
         background-color: $chat;
         border-radius: 10px;
         border: 1px solid $chat;
         color: white;
         font-size: 20px;
-    
-        
         margin-bottom: 10px;
 
         transition: all .5s;
@@ -159,9 +166,10 @@ form {
 
             width: 90%;
             height: 100%;
+
+            position: relative;
             margin-left: 10px;
-        
-            
+    
             flex-direction: column;
             
             color: $text;
@@ -178,13 +186,22 @@ form {
                 background-color: rgba(0, 0, 0, 0.2);
                 font-size: 14px;
             }
+
+
          }
+         
+        .new-msg {
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            border-radius: 50%;
+        }
+
 
     }
 
 }
-
-.chats {
+.messanger {
 
     width: 70%;
     height: 100%;
@@ -192,11 +209,64 @@ form {
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    background-color: $chatsblock;
+    background-color: $messangerblock;
 
     
+    .main {
+        width: 90%;
+        height: 90%;
 
+        display: flex;
+        flex-direction: column;
+
+        background-color: $whiteblue;
+        border-radius: 20px;
+        padding: 10px;
+
+        margin: 20px;
+
+        .msgs {
+            width: 100%;
+            height: 90%;
+            
+            border-radius: 20px;
+            
+            background-color: darken(lightcyan, 45%);
+
+
+        }
+
+        .msg-input {
+            display: flex;
+            flex-direction: row;
+            margin-top: 10px;
+
+            .send-message {
+                margin-top: auto;
+                width: 90%;
+                height: 60px;
+             
+                border: 1px solid $mainchat;
+                border-radius: 20px;
+    
+                background-color: $mainchat;     
+                
+                color: white;
+                padding: 5px;
+                font-size: 20px;
+    
+            }
+    
+            button {
+
+                margin-left: 20px;
+                flex: auto;
+                background-color: white;
+                border-radius: 50%;
+            }
+        }
+
+    }
 }
 
 
