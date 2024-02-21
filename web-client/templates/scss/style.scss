@@ -5,7 +5,18 @@
     padding: 0;
     text-decoration: none;
     font-family: "Nunito", sans-serif;
+    // overflow-x: hidden;
 }
+
+.__center {
+    justify-content: center;
+    align-items: center;
+}
+
+.__row {
+    flex-direction: row;
+}
+
 
 body {
     background-color: $bg;
@@ -15,9 +26,7 @@ body {
     display: flex;
     width: 100vw;
     height: 100vh;
-    justify-content: center;
-    align-items: center;
-
+    
 }
 
 form {
@@ -31,6 +40,168 @@ form {
     justify-content: center;
     align-items: center;
 }
+
+ .main-form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 80%;
+
+    justify-content: center;
+    align-items: center;
+
+
+    .setinfo {
+        display: flex;
+        flex-direction: column;
+
+        margin-bottom: 50px;
+
+        label {
+            font-size: 30px;
+            color: $labelcolor;
+        }
+
+        input {
+            width: 250px;
+            height: 40px;
+            background-color: $bg;
+            border: 3px solid $labelcolor;
+            border-radius: 10px;
+            color: $whiteblue;
+            font-size: 20px;
+        }
+    }
+
+    button {
+        background-color: $btncolor;
+        width: 200px;
+        height: 70px;
+        font-size: 40px;
+        font-weight: 800;
+        color: $whiteblue;
+        border-radius: 20px;
+        border: 1px solid $btncolor;
+    }
+
+ }
+
+// chats.html items styles
+
+
+
+.sidebar {  
+
+    width: 30%;
+
+    flex-direction: column;
+    
+    padding: 10px;
+   
+    background-color: $bgsidebar;
+    margin-right: 30px;
+
+    overflow: auto;
+    direction: rtl;
+
+    scrollbar-width: auto; /* for Firefox */
+    scrollbar-color: $bgsidebar white; /* for Firefox */
+    
+    ::-webkit-scrollbar {
+        width: 40px;
+
+      }
+    .nochat {
+        width: 100%;
+        height: 70px;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+        background-color: $red;
+        border-radius: 10px;
+
+        color: white;
+        font-size: 20px;
+        font-weight: 700;
+    
+        margin-bottom: 10px;
+    }
+
+    .chat {
+        
+        cursor: pointer;
+        direction: ltr;
+        width: 100%;
+        height: 80px;
+        
+        background-color: $chat;
+        border-radius: 10px;
+        border: 1px solid $chat;
+        color: white;
+        font-size: 20px;
+    
+        
+        margin-bottom: 10px;
+
+        transition: all .5s;
+
+        &:hover {    
+            transition: all .5s;
+
+            margin-right: -10px;
+            border: 1px solid white;
+            height: 90px;
+        }
+
+        .user-info {
+
+            width: 90%;
+            height: 100%;
+            margin-left: 10px;
+        
+            
+            flex-direction: column;
+            
+            color: $text;
+            .name {
+                margin-bottom: 10px;
+                font-weight: 700;
+            }
+            .last-msg {
+                width: 200px;
+                padding: 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                background-color: rgba(0, 0, 0, 0.2);
+                font-size: 14px;
+            }
+         }
+
+    }
+
+}
+
+.chats {
+
+    width: 70%;
+    height: 100%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: $chatsblock;
+
+    
+
+}
+
+
+
+//  Decor items styles
 
 
 .form-left-decoration, .form-right-decoration {
@@ -97,50 +268,4 @@ form {
     top: 0;
     left: 0;
     margin: 20px;
- }
-
- .main-form {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    height: 80%;
-
-    justify-content: center;
-    align-items: center;
-
-    // border: 1px solid white;
-
-    .info {
-        display: flex;
-        flex-direction: column;
-
-        margin-bottom: 50px;
-
-        label {
-            font-size: 30px;
-            color: $labelcolor;
-        }
-
-        input {
-            width: 250px;
-            height: 40px;
-            background-color: $bg;
-            border: 3px solid $labelcolor;
-            border-radius: 10px;
-            color: $whiteblue;
-            font-size: 20px;
-        }
-    }
-
-    button {
-        background-color: $btncolor;
-        width: 200px;
-        height: 70px;
-        font-size: 40px;
-        font-weight: 800;
-        color: $whiteblue;
-        border-radius: 20px;
-        border: 1px solid $btncolor;
-    }
-
  }
