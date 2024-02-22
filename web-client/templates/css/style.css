@@ -26,8 +26,8 @@
   display: none;
 }
 
-body {
-  background-color: #e4e0e0;
+.__hidde {
+  display: none;
 }
 
 .__me {
@@ -44,6 +44,15 @@ body {
   border-radius: 20px;
   border-bottom-left-radius: 0px;
   margin-right: auto;
+}
+
+.null {
+  display: none;
+  height: 50px;
+}
+
+body {
+  background-color: #e4e0e0;
 }
 
 .wrapper {
@@ -390,4 +399,15 @@ form {
   top: 0;
   left: 0;
   margin: 20px;
+}
+
+.navpanel {
+  display: none;
+  width: 100%;
+  height: 40px;
+  margin-bottom: 20px;
+  background-color: #0084ff;
+}
+.navpanel .arrow {
+  display: none;
 }

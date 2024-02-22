@@ -42,12 +42,59 @@
   }
 }
 @media only screen and (max-width: 885px) {
+  .sidebar {
+    width: 90%;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+  }
+  .messanger {
+    width: 10%;
+  }
+  .__close {
+    width: 13%;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+  }
+  .__open {
+    width: 87%;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+  }
+  .__smallname {
+    font-size: 12px;
+    white-space: pre-line;
+  }
+  .null {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .main {
+    height: 100%;
+    display: none;
+  }
   .sidebar .chat .new-msg {
     width: 10px;
     height: 10px;
   }
   .msgs .message {
     font-size: 14px;
+  }
+  .msgs .message {
+    width: 60%;
+  }
+  .navpanel {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    z-index: 999;
+    position: fixed;
+    margin-bottom: 10px;
+  }
+  .navpanel .arrow {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
   }
 }
 @media only screen and (max-width: 810px) {

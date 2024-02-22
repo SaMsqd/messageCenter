@@ -21,8 +21,9 @@
     display: none;
 }
 
-body {
-    background-color: $bg;
+
+.__hidde {
+    display: none;
 }
 
 .__me {
@@ -42,6 +43,15 @@ body {
     border-bottom-left-radius: 0px;
 
     margin-right: auto;
+}
+
+.null {
+    display: none;
+    height: 50px;
+}
+
+body {
+    background-color: $bg;
 }
 
 .wrapper {
@@ -428,4 +438,28 @@ form {
     top: 0;
     left: 0;
     margin: 20px;
+ }
+
+
+
+.navpanel {
+
+    display: none; 
+
+    width: 100%;
+    height:  40px;
+
+
+
+    margin-bottom: 20px;
+    background-color: #0084ff;
+
+
+
+    .arrow{ 
+        display: none;
+
+    }
+
+
  }

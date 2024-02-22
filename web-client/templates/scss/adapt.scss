@@ -1,3 +1,4 @@
+@import 'vars';
 
 @media only screen and (max-width: 1270px) {
     
@@ -60,20 +61,47 @@
     }
 
 
-
-    .sidebar {
-
-    }
-
-
-
 }
 
 
 
 
 @media only screen and (max-width: 885px) {
+
     
+    .sidebar {
+        width: 90%;
+        transition: all .5s;
+    }
+    
+    .messanger {
+        width: 10%;
+    }
+
+    .__close {
+        width: 13%;
+        transition: all .5s;
+    }
+
+    .__open {
+        width: 87%;
+        transition: all .5s;
+    }
+
+    .__smallname {
+        font-size: 12px;
+        white-space: pre-line;
+    }
+
+    .null {
+        display: flex;
+        
+    }
+    .main {
+        height: 100%;
+        display: none;
+    }
+
     .sidebar .chat .new-msg {
         width: 10px;
         height: 10px;
@@ -81,6 +109,23 @@
     .msgs .message {
         font-size: 14px;
     }
+    
+    .msgs .message {
+        width: 60%;
+    }
+
+    .navpanel {
+        display: flex;
+        z-index: 999;
+        position: fixed;
+        margin-bottom: 10px;
+        .arrow {
+            display: flex;
+        }
+    
+    }
+
+
 }
 
 @media only screen and (max-width: 810px) {
