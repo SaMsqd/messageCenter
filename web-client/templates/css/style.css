@@ -30,48 +30,60 @@ body {
   background-color: #e4e0e0;
 }
 
+.__me {
+  background-color: #123422;
+  border: 2px solid blue;
+}
+
+.__other {
+  background-color: lemonchiffon;
+  border: 2px solid #beb0b0;
+  border-radius: 20px;
+  border-bottom-left-radius: 0px;
+}
+
 .wrapper {
+  width: 100vw;
+  height: 100vh;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 100vw;
-  height: 100vh;
 }
 
 form {
+  width: 800px;
+  height: 90%;
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  position: relative;
-  margin: 40px;
-  width: 800px;
-  height: 90%;
-  background-color: #2ea7ee;
-  border-radius: 40px;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  background-color: #2ea7ee;
+  border-radius: 40px;
+  margin: 40px;
 }
 
 .main-form {
+  width: 80%;
+  height: 80%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  width: 80%;
-  height: 80%;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 .main-form .setinfo {
   display: -webkit-box;
@@ -90,6 +102,7 @@ form {
 .main-form .setinfo input {
   width: 250px;
   height: 40px;
+  outline: none !important;
   background-color: #e4e0e0;
   border: 3px solid #bcc2f7;
   border-radius: 10px;
@@ -97,12 +110,12 @@ form {
   font-size: 20px;
 }
 .main-form button {
-  background-color: #e4e0e0;
   width: 200px;
   height: 70px;
   font-size: 40px;
   font-weight: 800;
   color: #2ea7ee;
+  background-color: #e4e0e0;
   border-radius: 20px;
   border: 1px solid #e4e0e0;
 }
@@ -119,8 +132,8 @@ form {
   overflow: auto;
   direction: rtl;
   overflow-x: hidden;
-  scrollbar-width: auto; /* for Firefox */
-  scrollbar-color: #482faa white; /* for Firefox */
+  scrollbar-width: auto;
+  scrollbar-color: #482faa white;
 }
 .sidebar ::-webkit-scrollbar {
   width: 40px;
@@ -145,10 +158,10 @@ form {
   margin-bottom: 10px;
 }
 .sidebar .chat {
-  cursor: pointer;
   direction: ltr;
   width: 100%;
   height: 80px;
+  cursor: pointer;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -171,33 +184,33 @@ form {
 .sidebar .chat:hover {
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
-  margin-right: -10px;
-  border: 1px solid white;
   height: 90px;
+  border: 1px solid white;
+  margin-right: -10px;
 }
 .sidebar .chat .user-info {
   width: 90%;
   height: 100%;
   position: relative;
-  margin-left: 10px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  margin-left: 10px;
   color: #fff;
 }
 .sidebar .chat .user-info .name {
-  margin-bottom: 10px;
   font-weight: 700;
+  margin-bottom: 10px;
 }
 .sidebar .chat .user-info .last-msg {
   width: 200px;
   padding: 10px;
   white-space: nowrap;
   overflow: hidden;
+  font-size: 14px;
   text-overflow: ellipsis;
   background-color: rgba(0, 0, 0, 0.2);
-  font-size: 14px;
 }
 .sidebar .chat .new-msg {
   width: 25px;
@@ -235,13 +248,7 @@ form {
   padding: 10px;
   margin: 20px;
 }
-.messanger .main .msgs {
-  width: 100%;
-  height: 90%;
-  border-radius: 20px;
-  background-color: #00fafa;
-}
-.messanger .main .msg-input {
+.messanger .main .send-message {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -249,26 +256,97 @@ form {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-top: 10px;
 }
-.messanger .main .msg-input .send-message {
+.messanger .main .send-message .input-message {
+  outline: none !important;
+  resize: none;
   margin-top: auto;
   width: 90%;
   height: 60px;
   border: 1px solid #1b92c9;
-  border-radius: 20px;
+  border-radius: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #482faa white;
   background-color: #1b92c9;
   color: white;
-  padding: 5px;
+  padding: 10px;
   font-size: 20px;
 }
-.messanger .main .msg-input button {
+.messanger .main .send-message button {
+  width: 70px;
+  height: 70px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-left: 20px;
-  -webkit-box-flex: 1;
-      -ms-flex: auto;
-          flex: auto;
+  color: black;
+  font-size: 40px;
+  font-weight: 900;
   background-color: white;
-  border-radius: 50%;
+  border: 1px solid white;
+  border-radius: 30px;
+}
+.messanger .main .send-message button:active {
+  background-color: #cccccc;
+  border: 1px solid #cccccc;
+  color: #2ea7ee;
+}
+
+.msgs {
+  width: 100%;
+  height: 90%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-radius: 10px;
+  background-color: #00fafa;
+}
+.msgs .me-message {
+  width: 50%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-left: auto;
+  border: 2px solid red;
+  padding: 5px;
+}
+.msgs .other-message {
+  width: 50%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-right: auto;
+  border: 2px solid green;
+  padding: 5px;
+}
+.msgs .message {
+  width: 90%;
+  min-height: 50px;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 .form-left-decoration, .form-right-decoration {
