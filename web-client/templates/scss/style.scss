@@ -26,16 +26,22 @@ body {
 }
 
 .__me {
-    background-color: #123422;
-    border: 2px solid blue;
-}
-
-.__other {
     background-color: lemonchiffon;
     border: 2px solid #beb0b0;
 
     border-radius: 20px;
+    border-bottom-right-radius: 0px;
+
+    margin-left: auto;
+}
+
+.__other {
+    background-color: #6ea5e4;
+    border: 2px solid #3369dd;
+    border-radius: 20px;
     border-bottom-left-radius: 0px;
+
+    margin-right: auto;
 }
 
 .wrapper {
@@ -248,16 +254,18 @@ form {
 
     
     .main {
+
         width: 90%;
         height: 90%;
 
-        display: flex;
+        display: none;
         flex-direction: column;
 
         background-color: $whiteblue;
         border-radius: 20px;
-        padding: 10px;
 
+        padding: 20px;
+        
         margin: 20px;
 
 
@@ -278,7 +286,7 @@ form {
              
                 border: 1px solid $mainchat;
                 border-radius: 10px;
-                
+
                 scrollbar-width: thin; 
                 scrollbar-color: $bgsidebar white; 
 
@@ -324,50 +332,29 @@ form {
 
 .msgs {
             
-    width: 100%;
-    height: 90%;
 
+    height: 90%;
+  
     display: flex;
-    
+    flex-direction: column;
+
     border-radius: 10px;
 
+    overflow-y: auto;
+
     background-color: darken(lightcyan, 45%);
-
-    .me-message {
-        width: 50%;
-        height: 100%;
-        
-        display: flex;
-        flex-direction: column;
-
-        margin-left: auto;
-       
-        border: 2px solid red;
-        padding: 5px;
-    }
-    .other-message {
-        width: 50%;
-        height: 100%;
-        
-        display: flex;
-        flex-direction: column;
-
-        margin-right: auto;
-        border: 2px solid green;
-        padding: 5px;
-    }
-
-    .message {
-        width: 90%;
+    padding: 10px;
   
-        min-height: 50px;
-        overflow: hidden;
-   
+    .message {
+        width: 46%;
+
+
         font-size: 16px;
         font-weight: 500;
 
         padding: 10px;
         margin-bottom: 10px;
+        
     }
 
 }
