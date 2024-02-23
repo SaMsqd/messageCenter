@@ -27,8 +27,8 @@
 }
 
 .__me {
-    background-color: lemonchiffon;
-    border: 2px solid #beb0b0;
+    background-color: $mebg;
+    border: 2px solid $mebor;
 
     border-radius: 20px;
     border-bottom-right-radius: 0px;
@@ -37,8 +37,8 @@
 }
 
 .__other {
-    background-color: #6ea5e4;
-    border: 2px solid #3369dd;
+    background-color: $otherbg;
+    border: 2px solid $otherbor;
     border-radius: 20px;
     border-bottom-left-radius: 0px;
 
@@ -232,7 +232,7 @@ form {
                 font-size: 14px;
                 text-overflow: ellipsis;
 
-                background-color: rgba(0, 0, 0, 0.2);
+                background-color: $lastmsg;
 
             }
 
@@ -260,7 +260,6 @@ form {
     justify-content: center;
     align-items: center;
 
-    background-color: $messangerblock;
 
     
     .main {
@@ -268,10 +267,10 @@ form {
         width: 90%;
         height: 90%;
 
-        display: none;
+        display: flex;
         flex-direction: column;
 
-        background-color: $whiteblue;
+        background-color: $maincolor;
         border-radius: 20px;
 
         padding: 20px;
@@ -294,13 +293,13 @@ form {
                 width: 90%;
                 height: 60px;
              
-                border: 1px solid $mainchat;
+                border: 1px solid $inputmsg;
                 border-radius: 10px;
 
                 scrollbar-width: thin; 
                 scrollbar-color: $bgsidebar white; 
 
-                background-color: $mainchat;     
+                background-color: $inputmsg;     
                 
                 color: white;
                 padding: 10px;
@@ -352,7 +351,7 @@ form {
 
     overflow-y: auto;
 
-    background-color: darken(lightcyan, 45%);
+    background-color: $chatbg;
     padding: 10px;
   
     .message {

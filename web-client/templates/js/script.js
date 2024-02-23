@@ -32,6 +32,17 @@ document.addEventListener('DOMContentLoaded', function(){
         chat.onclick = tapFunc;
 
         function tapFunc() {
+
+            const Wd = window.screen.width
+
+            if (Wd <= 885) {
+                console.log("adapt")
+                tapArrow();
+          
+
+            }
+
+
             if (lastTappedChat !== null) {              
                 lastTappedChat.style.borderColor = '';  // У предыдущего .chat 
                 lastTappedChat.style.borderWidth = '';  // пропадает цвет обводки и сама обводка
@@ -59,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function(){
             messanger.classList.remove("__open");
             messanger.classList.add("__close");
 
+            messanger.style.display = 'none';
 
             lastmsg.forEach(lastmsg => { 
                 lastmsg.style.display = 'flex';
@@ -75,6 +87,8 @@ document.addEventListener('DOMContentLoaded', function(){
             messanger.classList.remove("__close");
             messanger.classList.add("__open");
             
+            messanger.style.display = 'flex';
+
             lastmsg.forEach(lastmsg => { 
                 lastmsg.style.display = 'none';
             });
@@ -83,15 +97,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 name.classList.add("__smallname")
             });
 
-            chatElements.forEach(chat => {
-                console.log(chat.style.borderColor == 'greenyellow')
-                if (chat.style.borderColor === 'greenyellow') {
-                    main.style.display = 'flex';
-                    console.log("ПОКАЗАТЬ")
-                } else {
-                    // main.style.display = 'none';
-                }
-            });
+
             
 
         }

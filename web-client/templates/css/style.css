@@ -31,16 +31,16 @@
 }
 
 .__me {
-  background-color: lemonchiffon;
-  border: 2px solid #beb0b0;
+  background-color: #ffffff;
+  border: 2px solid #b3b3b3;
   border-radius: 20px;
   border-bottom-right-radius: 0px;
   margin-left: auto;
 }
 
 .__other {
-  background-color: #6ea5e4;
-  border: 2px solid #3369dd;
+  background-color: #83f3ae;
+  border: 2px solid #a6a6a6;
   border-radius: 20px;
   border-bottom-left-radius: 0px;
   margin-right: auto;
@@ -140,13 +140,13 @@ form {
       -ms-flex-direction: column;
           flex-direction: column;
   padding: 10px;
-  background-color: #482faa;
+  background-color: #59ade6;
   margin-right: 30px;
   overflow: auto;
   direction: rtl;
   overflow-x: hidden;
   scrollbar-width: auto;
-  scrollbar-color: #482faa white;
+  scrollbar-color: #59ade6 white;
 }
 .sidebar ::-webkit-scrollbar {
   width: 40px;
@@ -185,9 +185,9 @@ form {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: #2e67bc;
+  background-color: #5c8cd4;
   border-radius: 10px;
-  border: 1px solid #2e67bc;
+  border: 1px solid #5c8cd4;
   color: white;
   font-size: 20px;
   margin-bottom: 10px;
@@ -223,7 +223,7 @@ form {
   overflow: hidden;
   font-size: 14px;
   text-overflow: ellipsis;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: #4ebeb0;
 }
 .sidebar .chat .new-msg {
   width: 25px;
@@ -244,17 +244,18 @@ form {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: #ccd2db;
 }
 .messanger .main {
   width: 90%;
   height: 90%;
-  display: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  background-color: #2ea7ee;
+  background-color: #59abee;
   border-radius: 20px;
   padding: 20px;
   margin: 20px;
@@ -278,11 +279,11 @@ form {
   margin-top: auto;
   width: 90%;
   height: 60px;
-  border: 1px solid #1b92c9;
+  border: 1px solid #458ad8;
   border-radius: 10px;
   scrollbar-width: thin;
-  scrollbar-color: #482faa white;
-  background-color: #1b92c9;
+  scrollbar-color: #59ade6 white;
+  background-color: #458ad8;
   color: white;
   padding: 10px;
   font-size: 20px;
@@ -324,7 +325,7 @@ form {
           flex-direction: column;
   border-radius: 10px;
   overflow-y: auto;
-  background-color: #00fafa;
+  background-color: rgb(163, 207, 228);
   padding: 10px;
 }
 .msgs .message {
