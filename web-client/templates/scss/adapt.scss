@@ -97,8 +97,9 @@
         display: flex;
         
     }
-    .main {
-        height: 100%;
+    .messanger .main {
+
+        padding: 10px;
         display: none;
     }
 
@@ -149,6 +150,24 @@
     .msgs .message {
         width: 60%;
     }
+
+    .__close {
+        width: 9%;
+        transition: all .5s;
+    }
+
+    .__open {
+        width: 91%;
+        transition: all .5s;
+    }
+    .__smallname {
+        font-size: 10px;
+        white-space: pre-line;
+    }
+
+    .messanger .main {
+        width: 95%;
+    }
 }
 
 @media only screen and (max-width: 790px) {
@@ -164,6 +183,23 @@
             }
         }
     }
+}
+
+@media only screen and (max-width: 745px) {
+    .__close {
+        width: 7%;
+        transition: all .5s;
+    }
+
+    .__open {
+        width: 95%;
+        transition: all .5s;
+    }
+    .__smallname {
+        font-size: 8px;
+        white-space: pre-line;
+    }
+
 }
 
 @media only screen and (max-width: 665px) {
@@ -186,6 +222,26 @@
         }        
     }
 
+    .msgs .message {
+        width: 70%;
+    }
+
+}
+
+@media only screen and (max-width: 635px) {
+    .__smallname {
+        display: none;
+    }
+    
+    .__close {
+        width: 4%;
+    }
+    .__open {
+        width: 97%;
+    }
+    .navpanel {
+        margin-right: -12px;
+    }
 }
 
 @media only screen and (max-width: 585px) {
@@ -207,7 +263,9 @@
             font-size: 20px;
         }
     }
-
+    .msgs .message {
+        width: 80%;
+    }
 }
 
 @media only screen and (max-width: 505px) {

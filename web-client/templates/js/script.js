@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function(){
             }
             checkCircle.classList.add("__none");        // пропадет кружок
             
-            chat.style.borderColor = 'greenyellow';     // Обводка станет зеленой у текущего чата
+            chat.style.borderColor = 'white';     // Обводка станет зеленой у текущего чата
             chat.style.borderWidth = '2px';             // Обводка 2px
             mainChatForm.style.display = 'flex';        // Появляется чат
 
