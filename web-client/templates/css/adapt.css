@@ -1,8 +1,22 @@
+
+/* В index.html в основном уменьшается размер формы и её элементы */
+
+
+/* доп класс который добавляется с помощью js
+
+  .__close  (уменьшает width элемента)
+  .__open   (увеличивает width элемента)
+
+  .__smallname  ( применяется при закрытие .sidebar)
+*/
+
+
 @media only screen and (max-width: 1270px) {
   .sidebar .chat .new-msg {
     margin-right: 10px;
   }
 }
+
 @media screen and (max-width: 1150px) {
   form {
     width: 700px;
@@ -16,73 +30,106 @@
     height: 65px;
     font-size: 30px;
   }
+  /* немного увеличиваем длину сообщений */
   .msgs .message {
     width: 49%;
   }
 }
+
 @media only screen and (max-width: 992px) {
   form {
     width: 600px;
     height: 80%;
   }
+
+  /* уменьшаем кружочек .new-msg */
   .sidebar .chat .new-msg {
     width: 20px;
     height: 20px;
   }
+  /* уменьшаем "последнее сообщение" .last-msg */
   .sidebar .chat .user-info .last-msg {
     width: 170px;
   }
+  /* увеличиваем длину сообщений */
   .msgs .message {
     width: 50%;
   }
 }
+
 @media only screen and (max-width: 915px) {
+  /* добавляем небольшой отступ для будущего */
   .sidebar .chat .new-msg {
     margin-right: 5px;
   }
 }
+
+/* Переходим на мобильную версию */
+
 @media only screen and (max-width: 885px) {
+
+  /* увелисиваем .sidebar до 90% . Чтоб при заходе на сайт мы увидели список чатов */
   .sidebar {
     width: 90%;
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
   }
+
+  /* .messanger уменьшаем до 10% при первом ззапуске сайта */
   .messanger {
     width: 10%;
   }
+
+  /* доп класс для скрытия */
   .__close {
     width: 13%;
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
   }
+
+  /* доп класс для открытия */
   .__open {
     width: 87%;
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
   }
+  
+  /* уменьшаем имя при закрытие .sidebar */
   .__smallname {
     font-size: 12px;
     white-space: pre-line;
   }
+
+  /* Появления блока для отступа .navpanel */
   .null {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
   }
+
+  /* уменшаем внитринеи отступы у .main */
   .messanger .main {
     padding: 10px;
     display: none;
   }
+
+  /* уменьшаем кружок */
   .sidebar .chat .new-msg {
     width: 10px;
     height: 10px;
   }
+
+  /* уменьшаем текст у сообщений */
   .msgs .message {
     font-size: 14px;
   }
+
+  /* увеличиваем длину сообщений */
   .msgs .message {
     width: 60%;
   }
+
+  /* появление .navpanel и переносим её на слой 999 чтоб она была поверх всех элементов */
   .navpanel {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -91,12 +138,14 @@
     position: fixed;
     margin-bottom: 10px;
   }
+  /* появление стрелки в панели */
   .navpanel .arrow {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
   }
 }
+
 @media only screen and (max-width: 810px) {
   form {
     width: 500;
@@ -110,27 +159,34 @@
     height: 60px;
     font-size: 30px;
   }
-  .msgs .message {
-    width: 60%;
-  }
+
+  /* изменяем доп класс , чтоб он уменьшал width до 9% */
   .__close {
     width: 9%;
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
   }
+
+  /* изменяем доп класс для открытия */
   .__open {
     width: 91%;
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
   }
+
+  /* уменьшаем имя при закрытом .sidebar  */
   .__smallname {
     font-size: 10px;
     white-space: pre-line;
   }
+
+   /* увеличиваем блок с чатом */
   .messanger .main {
     width: 95%;
   }
 }
+
+
 @media only screen and (max-width: 790px) {
   form {
     width: 480px;
@@ -140,22 +196,27 @@
     width: 220px;
   }
 }
+
 @media only screen and (max-width: 745px) {
+  /* изменяем доп класс закрытия */
   .__close {
     width: 7%;
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
   }
+  /* изменяем доп класс открытия */
   .__open {
     width: 95%;
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
   }
+  /* уменьшаем текст при закрытов .sidebar */
   .__smallname {
     font-size: 8px;
     white-space: pre-line;
   }
 }
+
 @media only screen and (max-width: 665px) {
   form {
     width: 450px;
@@ -164,14 +225,19 @@
   .main-form .setinfo input {
     width: 220px;
   }
+
+  /* изменения декоративных блоков в index.html */
   .form-left-decoration:after {
     left: -20px;
     width: 70px;
   }
+
+  /* увеличиваем длину сообщений в chat.html */
   .msgs .message {
     width: 70%;
   }
 }
+
 @media only screen and (max-width: 635px) {
   .__smallname {
     display: none;
@@ -182,10 +248,12 @@
   .__open {
     width: 97%;
   }
+  /* делаем отрицательный отступ чтобы стрелка не в панели не была прижата к левому краю */
   .navpanel {
     margin-right: -12px;
   }
 }
+
 @media only screen and (max-width: 585px) {
   form {
     width: 400px;
@@ -199,10 +267,12 @@
     height: 50px;
     font-size: 20px;
   }
+  /* увеличиваем длину сообщения  */
   .msgs .message {
     width: 80%;
   }
 }
+
 @media only screen and (max-width: 505px) {
   form {
     width: 350px;
@@ -218,6 +288,7 @@
     font-size: 20px;
   }
 }
+
 @media only screen and (max-width: 465px) {
   form {
     width: 300px;
@@ -233,6 +304,7 @@
     font-size: 20px;
   }
 }
+
 @media only screen and (max-width: 420px) {
   form {
     width: 250px;
@@ -247,6 +319,7 @@
     font-size: 17px;
   }
 }
+
 @media only screen and (max-width: 375px) {
   form {
     width: 220px;
