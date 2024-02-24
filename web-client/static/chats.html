@@ -12,145 +12,48 @@
 <body>
     <div class="wrapper ">
 
+        <!-- .sidebar - левая часть сайта, в которой хранятся чаты -->
         <div class="sidebar">
 
+            <!-- .navpanel и .null появляется при width экрана 885px и меньше -->
             <div class="navpanel">
                 <img class="arrow" src="../templates/css/arrow.svg" alt="">
             </div>
+            
+            <!-- нужен для нормального отступа при адаптации -->
             <div class="null"></div>
+
+            <!-- Появляется при отсуствии .chat -->
             <div class="nochat">
                 У вас пока что нет чатов
             </div>
            
+            <!-- .chat сам чат -->
             <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
-          
-            <div class="chat">
-                <div class="user-info">
-                    <div class="name">Имя Аккаунта</div>
-                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
-                </div>
-                <div class="new-msg"></div>
-            </div>
 
-       
+                <div class="user-info">
+                    <!--
+                        к .name при сворачивание .sidebar добавляется доп класс .__smallname для регулировки размера шрифта
+                        Это заметно если открыть панель разработчика в браузере и изменить width на 885 и меньшн
+                    -->
+                    <div class="name">Имя Аккаунта</div> 
+                    <!-- .last-msg при сворачивание .sidebar скрывается с помощью js при width 885 и меньше -->
+                    <div class="last-msg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim asperiores perspiciatis  </div>
+                </div>
+                
+                <!-- .new-msg сама точка нового сообщения -->
+                <div class="new-msg"></div>
+            </div>
         </div>
 
 
+        <!-- Правая часть сайта которая содержит блок с чатом (.main) -->
         <div class="messanger">
             
-            
+            <!-- Блок с чатом -->
             <div class="main">
 
+                <!-- Верхний блок со сообщениями  -->
                 <div class="msgs">
 
                     <div class="message __me">Привет 13 12352 2345 12 12426 346 ц3 ыв лофыа лфыавйшц?</div>
@@ -159,22 +62,17 @@
                     <div class="message __other">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error voluptate quas et? </div>
                     <div class="message __me">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, quos! Minima placeat, dolorem dicta porro ipsa expedita, harum culpa, sequi corrupti quia doloremque? Nobis natus beatae est saepe omnis dolorem doloribus aut, nesciunt blanditiis cupiditate obcaecati optio autem exercitationem sit explicabo ipsam, corporis veritatis quod accusamus neque placeat, labore vel. Dignissimos exercitationem tempora quibusdam, illum, similique vero, ex odio fugiat deserunt odit error autem facilis debitis molestiae praesentium nam!</div>
  
-                    <div class="message __other">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error voluptate quas et? </div>
-                    <div class="message __me">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, quos! Minima placeat, dolorem dicta porro ipsa expedita, harum culpa, sequi corrupti quia doloremque? Nobis natus beatae est saepe omnis dolorem doloribus aut, nesciunt blanditiis cupiditate obcaecati optio autem exercitationem sit explicabo ipsam, corporis veritatis quod accusamus neque placeat, labore vel. Dignissimos exercitationem tempora quibusdam, illum, similique vero, ex odio fugiat deserunt odit error autem facilis debitis molestiae praesentium nam!</div>
- 
-                    <div class="message __other">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error voluptate quas et? </div>
-                    <div class="message __me">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, quos! Minima placeat, dolorem dicta porro ipsa expedita, harum culpa, sequi corrupti quia doloremque? Nobis natus beatae est saepe omnis dolorem doloribus aut, nesciunt blanditiis cupiditate obcaecati optio autem exercitationem sit explicabo ipsam, corporis veritatis quod accusamus neque placeat, labore vel. Dignissimos exercitationem tempora quibusdam, illum, similique vero, ex odio fugiat deserunt odit error autem facilis debitis molestiae praesentium nam!</div>
- 
                     <div class="message __me"></div>
                     <div class="message __other"></div>
 
                 </div>
                
+                <!-- Нижний блок с полем ввода и кнопкой -->
                 <div class="send-message">
                     <textarea class="input-message" name="" id="" cols="30" rows="6"></textarea>
                     <button> > </button>
                 </div>
-          
+
             </div>
         
 
