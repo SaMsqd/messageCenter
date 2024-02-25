@@ -1,58 +1,53 @@
-class AvitoApi:
-    def __init__(self, token, secret):
-        """
-        Сохраняются токен и секрет для генерации запросов к API
-        :param str token:
-        :param str secret:
-        """
+import requests
+import json
 
-        # Очередь чатов. Обновляется в методе update_unreaden_chats
-        self.token = token
-        self.secret = secret
-        self.chats_queue = None
-        self.update_unreaden_chats()
+proxies = {
+    'http': '51.15.241.5:16379'
+}
 
-    def update_unreaden_chats(self):
-        """
-        Добавляет непрочитанные чаты
-        :return:
-        """
-        pass
+client_id = '1GQx2lP_yfl6VT8RocTg'
 
-    def send_message(self, chat):
-        """
-        Отправляет сообщение в чат
-        :param Chat chat: аргумент - объект класса Chat
-        :return:
-        """
-        pass
+client_secret = 'tLUAc-vrNV7rvdlS8WOmK5wJGlAJem5vCFG8hdqr'
+user_id = 234428796
+headers = {'Authoriztion': 'VDBqyhGASGqpRSoVD0epXAEvDK3-Dm_eRpoJUBXj'}
+
+data = {
+    'grant_type': 'client_credentials',
+    'client_id': client_id,
+    'client_secret': client_secret,
+}
+
+response = requests.post('https://api.avito.ru/token/', data=data)
+print(response.content)
 
 
-class Chat:
-    def __init__(self):
-        """
-        Сразу создаётся список сообщений с двумя вложенными словарями. По первому индексу идёт тот,
-        кто прислал первое сообщение. По последнему индексу идёт тот, кто прислал последнее сообщение
-        {'seller': 'messages_text'} {'buyer': 'messages_text'}
-        :return:
-        """
-        self.messages_queue = None
+headers = {
+    'accept': 'application/json',
+    'Authorization': 'Bearer whgiED96RJOAhXPAnxFUPQA2qJmSEF3KMBMUjRyx'
+}
 
-    def get_last_messages(self):
-        """
-        Получает последние сообщения, отправленные пользователем и продавцом(может быть очередь сообщений,
-        но подряд говорят по разу). Как начнёшь это делать - напиши мне, объясню на примере, не знаю как
-        текстом это сделать
-        :return: list список с двумя вложенными словарями. По индексу 1(последнему) идёт тот, кто прислал
-        последнее сообщение
-        {'seller': 'messages_text'}, {'buyer': 'messages_text'}
-        """
-        pass
+params = {
+    'unread_only': 'false',
+    'chat_types': 'u2i,u2u',
+    'limit': '1',
+}
+# res = requests.get(headers=headers, params=params, url=f'https://api.avito.ru/messenger/v2/accounts/{user_id}/chats')
+#
+# """
+# Алгоритм: Получаем  токен по client_id и client_secret, получаем от пользователя
+# client_id(id профиля). Закидываем токен при каждом запросе в header вида
+# {'Authorization': 'Bearer <TOKEN>'} и отправляем запросы
+# """
+# content = json.loads(res.content.decode())
 
-    def send_message(self, text):
-        """
-        Отправляет сообщение в этот чат
-        :param str text: Сообщение, которое нужно отправить
-        :return:
-        """
-        pass
+# chat_id = content['chats'][0]['id']
+# response = requests.get(headers=headers, url=f'https://api.avito.ru/messenger/v3/accounts/{user_id}/chats/{chat_id}/messages/')
+# content = json.loads(response.content.decode())
+# for message in content['messages']:
+#     try:
+#         continue
+#         print(message['content'])
+#     except KeyError:
+#         pass
+
+
