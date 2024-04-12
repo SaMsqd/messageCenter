@@ -4,7 +4,6 @@ from functools import wraps
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret'
 socketIO = SocketIO(app, cors_allowed_origins='*', async_mode='threading')
 
 
@@ -65,4 +64,4 @@ def new_message():
 
 
 if __name__ == '__main__':
-    socketIO.run(app, log_output=True, allow_unsafe_werkzeug=True)
+    socketIO.run(app, host='92.118.114.25', log_output=True, allow_unsafe_werkzeug=True)
