@@ -26,15 +26,16 @@ class AvitoApi:
         :return:
         """
         data = {
-            {
                 'grant_type': 'client_credentials',
                 'client_id': self.client_id,
                 'client_secret': self.client_secret,
-            }
         }
-        return json.loads(
-            requests.get('https://api.avito.ru/token/', data=data, proxies=self.proxy).content.decode()
+        headers = {'Content-Type': 'application/x-www-form-urlencoded',
+                   'accept': 'application/json'}
+        res = json.loads(
+            requests.post('https://api.avito.ru/token/', data=data, headers=headers).content.decode()
         )['access_token']
+        return res
 
     def update_chats(self):
         """
@@ -44,9 +45,9 @@ class AvitoApi:
         res = json.loads(
             requests.get(
                 f'https://api.avito.ru/messenger/v2/accounts/{self.profile_id}/chats',
-                proxies=self.proxy, headers=self.headers)
+                    headers=self.headers, params={'limit': 5}).content.decode()
         )
-        self.chats_queue = res.content['chats']
+        self.chats_queue = res['chats']
 
     def get_chat(self, chat_id):
         """
@@ -54,12 +55,11 @@ class AvitoApi:
         :param int chat_id:
         :return:
         """
-        res = json.loads(
-            requests.get(
-                f'https://api.avito.ru/messenger/v2/accounts/{self.profile_id}/chats/{chat_id}/messages',
-                proxies=self.proxy, headers=self.headers
-            )
-        )
+        headers = self.headers | {'accept': 'application/json'}
+        res = json.loads(requests.get(
+                f'https://api.avito.ru/messenger/v3/accounts/{self.profile_id}/chats/{chat_id}/messages',
+                headers=headers
+            ).content.decode())
         return res
 
     def send_message(self, chat_id, text):
@@ -79,7 +79,22 @@ class AvitoApi:
         response = json.loads(
             requests.post(
                 url=f'https://api.avito.ru/messenger/v1/accounts/{self.profile_id}/chats/{chat_id}/messages',
-                data=data, headers=headers, proxies=self.proxy
-            )
+                data=data, headers=headers
+            ).content.decode()
         )
         return response['content']['text'] == text
+
+    def register_webhook(self, url: str):
+        """Функция, которая будет регистрировать веб-хуки с AvitoAPI"""
+        data = json.dumps({
+            'url': url
+        })
+        response = json.load(
+            requests.post(url='https://api.avito.ru/messenger/v1/subscriptions',
+                          headers=self.headers,
+                          data=data)
+        )
+        if response['ok'] == True or response['ok'] == 'true':
+            print(f'Webhook для аккаунта {self.profile_id} успешно зарегистрирован')
+        else:
+            print(f'Ошибка регистрации веб-хука для аккаунта {self.profile_id}')
