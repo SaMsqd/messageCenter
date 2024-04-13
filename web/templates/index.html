@@ -10,7 +10,7 @@
 
 <body>
     <div class="wrapper __center">
-        <form action="">
+        <form action="" method="post">
             <!-- Декоративные элементы -->
             <div class="form-right-decoration"></div>
             <div class="form-left-decoration"></div>
@@ -21,16 +21,28 @@
                     <label class="psw-text">Пароль</label>
                     <input name="password" type="password" >
                 </div>
-                <button>Войти</button>
+                <button type="submit">Войти</button>
             </div>
         </form>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="secret" crossorigin="anonymous"></script>
-        <script type="text/javascript" charset="utf-8">
-            var socket = io();
-            socket.on('connect', function() {
-                socket.emit('my event', {data: 'I\'m connected!'});
-            });
+        <script>
+            var socket = new WebSocket("ws:127.0.0.1:5000");
+
+socket.onopen = function() {
+    alert("Соединение установлено.");
+};
+
+socket.onclose = function(event) {
+    if (event.wasClean) {
+      alert('Соединение закрыто чисто');
+    } else {
+      alert('Обрыв соединения'); // например, "убит" процесс сервера
+    }
+    alert('Код: ' + event.code + ' причина: ' + event.reason);
+};
+socket.onmessage = function(event) {
+  alert(`[message] Данные получены с сервера: ${event.data}`);
+};
         </script>
+    </div>
 </body>
 </html>
