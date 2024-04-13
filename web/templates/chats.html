@@ -156,12 +156,12 @@ body {
         }
 
 
-        for (const key in data) {
-            const innerData = data[key];
-            for (const innerKey in innerData) {
+        for (const user_id in data) {
+            const chat_name = data[user_id];
+            for (const chat_id in chat_name) {
                 const chatBlock = document.createElement('div');
                 chatBlock.classList.add('chat');
-                chatBlock.textContent = key + ": " + innerKey + " " + innerData[innerKey];
+                chatBlock.textContent = user_id + ": " + chat_id + " " + chat_name[chat_id];
                 scrollboxInner.appendChild(chatBlock);
             }
         }
