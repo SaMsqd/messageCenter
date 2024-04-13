@@ -66,11 +66,11 @@ async def web_socket(ws: WebSocket):
         data = await ws.receive_text()
         await manager.broadcast(data)
 
-
-@app.get('/chats')
+@app.get('/chats', response_class=fastapi.responses.HTMLResponse)
+@app.post('/chats', response_class=fastapi.responses.HTMLResponse)
 #@check_cookies
 def chats():
-    return 'Страница с чатами'
+    return return_html('chats.html')
 
 
 uvicorn.run(app, port=5000, host='127.0.0.1')

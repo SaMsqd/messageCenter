@@ -3,46 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/adapt.css">
-    <title>MessageCenter</title>
+
+    <!-- Axios CDN -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <title>MessageCenter | Login</title>
 </head>
-
 <body>
-    <div class="wrapper __center">
-        <form action="" method="post">
-            <!-- Декоративные элементы -->
-            <div class="form-right-decoration"></div>
-            <div class="form-left-decoration"></div>
-            <div class="circle"></div>
-            <!-- --------------------- -->
-            <div class="main-form">
-                <div class="setinfo">
-                    <label class="psw-text">Пароль</label>
-                    <input name="password" type="password" >
-                </div>
-                <button type="submit">Войти</button>
-            </div>
-        </form>
-        <script>
-            var socket = new WebSocket("ws:127.0.0.1:5000");
+    
+    <div class="wrapper">
 
-socket.onopen = function() {
-    alert("Соединение установлено.");
-};
 
-socket.onclose = function(event) {
-    if (event.wasClean) {
-      alert('Соединение закрыто чисто');
-    } else {
-      alert('Обрыв соединения'); // например, "убит" процесс сервера
-    }
-    alert('Код: ' + event.code + ' причина: ' + event.reason);
-};
-socket.onmessage = function(event) {
-  alert(`[message] Данные получены с сервера: ${event.data}`);
-};
-        </script>
+        <div class="signin">
+
+             
+        </div>
+
+
     </div>
+
+
+
+     <!-- <script src="../static/js/script.js"></script> -->
+    <script>
+        console.log("index")   
+
+    </script>
 </body>
 </html>
