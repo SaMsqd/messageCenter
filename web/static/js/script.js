@@ -1,7 +1,7 @@
 console.log("WEBPICKER");
 
 
-// axios.get('127.0.0.1:5000')
+// axios.get('http://127.0.0.1:5000/chats')
 //   .then(response => {
 //     console.log(response.data);
 //   })

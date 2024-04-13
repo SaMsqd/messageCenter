@@ -4,35 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- <link rel="stylesheet" href="../static/css/chats.css"> -->
 
     <!-- Axios CDN -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script> -->
+
+
+
 
     <title>MessageCenter | Chats</title>
 </head>
 <body>
     
 
+    <div class="wrapper">
+
+        <nav class="sidebar">
+            <div class="scrollbox">
+                <div class="scrollbox-inner">
+                    <!-- <div class="chat"></div> -->
+                </div>
+            </div>
+        </nav>
+
+        <div class="messangerBlock">
+
+        </div>
+
+
+    </div>
 
 
 
+    <style rel="stylesheet">
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  font-family: "Nunito", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: #161616;
+}
 
 
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #585555;
+} 
+
+.scrollbox {
+    overflow: auto;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    background-color: #0c0b0b;
+    display: flex;
+    flex-direction: column;
+}
+
+.scrollbox {
+    overflow: auto;
+}
+
+.scrollbox-inner {
+    padding: 10px;
+}
+
+.chat {
+    width: 100%;
+    height: 70px;
+    margin-top: 10px;
+    color: white;
+    background-color: #302e2e;
+    border-radius: 5px;
+}
+
+.messangerBlock {
+    display: flex;
+    flex-direction: column;
+
+    width: 80%;
+    margin-left: 5px;
+}
 
 
-
+    </style>
 
     
-     <!-- <script src="../static/js/script.js"></script> -->
+     <!-- <script src="../static/js/chatscript.js"></script> -->
     <script>
+        // var socket = new WebSocket("ws://127.0.0.1:5000");
+        // socket.onopen = function() {
+            // console.log("connected.");
+        // };
+        // axios.get('http://127.0.0.1:5000/chats')
+        // .then(response => {
+        //     console.log(response.data);
+        // })
+        // .catch(error => {
+        //     console.error(error);
+        // });
+        // axios.post('127.0.0.1:5000/chats', {
+        //     firstName: 'Fred',
+        //     lastName: 'Flintstone'
+        // })
+        // .then(function (response) {
+        //     console.log(response);
+        // })
+        // .catch(function (error) {
+        //     console.log(error);
+        // });
+        const scrollboxInner = document.querySelector('.scrollbox-inner');
         
-        var socket = new WebSocket("ws://127.0.0.1:5000");
+        
+        const data  = {
+                1: {
+                        10: "CN 10",
+                        11: "CN 11",
+                        12: "CN 12"
+                },
+                2: {
+                    20: "CN 20",
+                    21: "CN 21",
+                    22: "CN 22"
+                },
+                3: {
+                    33: "CN 33"
+                }
+        }
 
-        socket.onopen = function() {
-            console.log("connected.");
-        };
 
-     </script>
+        for (const key in data) {
+            const innerData = data[key];
+            for (const innerKey in innerData) {
+                const chatBlock = document.createElement('div');
+                chatBlock.classList.add('chat');
+                chatBlock.textContent = key + ": " + innerKey + " " + innerData[innerKey];
+                scrollboxInner.appendChild(chatBlock);
+            }
+        }
+
+    </script>
 </body>
 </html>
