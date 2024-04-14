@@ -1,4 +1,4 @@
-import avito_api
+from avito import avito_api
 
 
 class ProxyException(BaseException):
@@ -25,3 +25,38 @@ class Account:
 
     def check_proxy(self):
         pass
+
+
+class AccountList:
+    def __init__(self):
+        self.accounts = list()
+
+    def add(self, account: Account):
+        self.accounts.append(account)
+
+    def send_message(self, account_name, chat_id, message):
+        for account in self.accounts:
+            if account.name == account_name:
+                account.api.send_message(chat_id=chat_id, text=message)
+
+    def get_chats(self):
+        res = []
+        for account in self.accounts:
+            chats = []
+            for chat in account.api.chats_queue:
+                chats.append({chat['id']: chat['context']['value']['title']})
+            res.append({account.name: chats})
+        return res
+
+    def get_messages(self, account_name, chat_id):
+        res = []
+        for account in self.accounts:
+            if account.name == account_name:
+                for message in account.api.get_chat(chat_id)['messages'][::-1]:
+                    res.append({
+                        'content': message['content']['text'],
+                        'created': message['created'],
+                        'direction': message['direction'],
+                        'is_read': message['isRead']
+                    })
+        return res

@@ -1,9 +1,23 @@
 import fastapi
 from fastapi import WebSocket
+from fastapi.responses import HTMLResponse, Response
+
+from avito.account import Account, AccountList
+
+from main import get_password as PW
 import uvicorn
 
 
 app = fastapi.FastAPI()
+
+
+accounts = AccountList()
+
+accounts.add(Account(profile_id=159470220,
+                     client_id='Pm4BmvaY4LPFHQ6Oo_Hu',
+                     client_secret='qBO1H1ssvcfotR15Nw1Qpxrs_1yG9vyhWb9tbgj5',
+                     proxy=None,
+                     name='first'))
 
 
 class Manager:
@@ -41,7 +55,7 @@ class Manager:
 manager = Manager()
 
 
-def return_html(file_name):
+def return_html(file_name, headers: dict = None):
     with open(f'./templates/{file_name}') as f:
         return f.read()
 
@@ -52,12 +66,20 @@ async def get_password():
     :return:
     """
     return 'test'
+    #return PW()
 
 
-@app.get('/login', response_class=fastapi.responses.HTMLResponse)
-@app.post('/login', response_class=fastapi.responses.HTMLResponse)
-async def login():
-    return return_html('index.html')
+@app.get('/login/', response_class=fastapi.responses.HTMLResponse)
+@app.post('/login/', response_class=fastapi.responses.HTMLResponse)
+async def login(password: str = ''):
+    print(password)
+    if password:
+        response = Response(return_html('index.html'), headers={'Set-Cookie': 'password=test'})
+        response.set_cookie(key='password', value=password)
+        return response
+    else:
+        return HTMLResponse(return_html('index.html'))
+
 
 @app.websocket('/')
 async def web_socket(ws: WebSocket):
@@ -66,11 +88,28 @@ async def web_socket(ws: WebSocket):
         data = await ws.receive_text()
         await manager.broadcast(data)
 
+
 @app.get('/chats', response_class=fastapi.responses.HTMLResponse)
 @app.post('/chats', response_class=fastapi.responses.HTMLResponse)
 #@check_cookies
 def chats():
     return return_html('chats.html')
+
+
+@app.post('/get_messages')
+def api_get_messages(account_name, chat_id):
+    return accounts.get_messages(account_name, chat_id)
+
+
+@app.post('/send_message')
+def api_send_message(account_name, chat_id, message):
+    accounts.send_message(account_name, chat_id, message)
+    return 200
+
+
+@app.get('/get_chats')
+def api_get_chats():
+    return accounts.get_chats()
 
 
 uvicorn.run(app, port=5000, host='127.0.0.1')

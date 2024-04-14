@@ -14,7 +14,8 @@ class AvitoApi:
         self.profile_id = profile_id
         self.client_id = client_id
         self.client_secret = client_secret
-        self.proxy = {'https': str(proxy)}
+        if proxy:
+            self.proxy = {'https': str(proxy)}
         self.token: str = self.get_token()
         self.headers: dict = {'Authorization': f'Bearer {self.token}'}
         self.chats_queue: list = []
@@ -45,7 +46,7 @@ class AvitoApi:
         res = json.loads(
             requests.get(
                 f'https://api.avito.ru/messenger/v2/accounts/{self.profile_id}/chats',
-                    headers=self.headers, params={'limit': 5}).content.decode()
+                    headers=self.headers, params={'limit': 30, 'chat_types': 'u2u,u2i'}).content.decode()
         )
         self.chats_queue = res['chats']
 
@@ -94,7 +95,7 @@ class AvitoApi:
                           headers=self.headers,
                           data=data)
         )
-        if response['ok'] == True or response['ok'] == 'true':
+        if response['ok'] or response['ok'] == 'true':
             print(f'Webhook для аккаунта {self.profile_id} успешно зарегистрирован')
         else:
             print(f'Ошибка регистрации веб-хука для аккаунта {self.profile_id}')

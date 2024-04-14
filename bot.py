@@ -10,6 +10,8 @@ users_id = [643793566]
 message_id = {}
 
 
+password = ''
+
 def send_password():
     global message_id
     global password

@@ -1,22 +1,17 @@
-import asyncio
-from web import app, Websocket
-import threading
+from bot import password
+from avito.account import Account
 
 
-def start_server():
-    asyncio.run(app.main())
+account = Account(profile_id=159470220,
+                  client_id='Pm4BmvaY4LPFHQ6Oo_Hu',
+                  client_secret='qBO1H1ssvcfotR15Nw1Qpxrs_1yG9vyhWb9tbgj5',
+                  proxy=None,
+                  name='Свой гаджет РФ')
+
+# for chat in account.api.chats_queue:
+#     print(chat['context']['value']['title'])
+#     print(chat['id'])
 
 
-def open_ws():
-    asyncio.run(websocket.main())
-
-def main():
-    thread_server = threading.Thread(target=start_server)
-    thread_ws = threading.Thread(target=open_ws)
-
-    thread_server.start()
-    thread_ws.start()
-
-
-if __name__ == '__main__':
-    main()
+def get_password():
+    return password
