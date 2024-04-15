@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-16">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- <link rel="stylesheet" href="../static/css/chats.css"> -->
@@ -32,9 +32,30 @@
                 </div>
             </div>
         </nav>
+        <div class="pashalka">
+            messangeCenter 
+        </div>
+        <div class="messanger-block">
+            <div class="main-chat-block">
 
-        <div class="messangerBlock">
+                <div class="message-block">
 
+                    <div class="messanger-main">
+
+                        <!-- <div class="message __me"></div>
+                        <div class="message __other"></div> -->
+                    </div>
+                    
+                </div>
+
+                <div class="text-input-block">
+                    <div class="text-input-items">
+                        <textarea class="textarea" placeholder="Your Message ..."  rows="5" cols="33"></textarea>
+                        <div class="btn-icon"/>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
 
@@ -72,6 +93,10 @@ body {
 ::-webkit-scrollbar-thumb {
     background-color: #585555;
 } 
+
+::placeholder {
+    color: white;
+}
 
 .scrollbox {
     overflow: auto;
@@ -113,6 +138,7 @@ body {
     border: 1px #a7b260 solid;
 }
 
+
 .chatinfo {
     display: flex;
     flex-direction: column;
@@ -134,27 +160,142 @@ body {
     text-overflow: ellipsis; 
 }
 
-.messangerBlock {
+.pashalka {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 60px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 700;
 
-    width: 80%;
+}
+
+.messanger-block {
+    display: none;
+    position: fixed;
+    right: 0;
+    flex-direction: column;
+    align-items: center;
+    /* border: 1px red solid; */
+    width: 74%;
+    height: 100%;
+    
     margin-left: 5px;
 }
 
+.main-chat-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 95%;
+    height: 100%;
+    /* background-color: red;     */
+}
+
+.message-block {
+    width: 100%;
+    height: 83%;
+    border-radius: 5px;
+    background-color: #1e1e1e;
+}
+
+.messanger-main {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #0f0f0f;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    overflow: auto; /* This will make the content scrollable */
+}
+
+.message {
+    max-width: 49%;
+    border-radius: 10px;
+    background-color: #1f1e1e;
+    padding: 10px;
+    color: white;
+    margin: 10px;
+
+}
+
+.__me { 
+    margin-left: auto;
+    border-bottom-right-radius: 0;
+    background-color: #3d3b3b;
+}
+
+.__other {
+    margin-right: auto;
+    border-bottom-left-radius: 0;
+    background-color: #aea9a9;
+}
+
+/* #0c0b0b - цвет сообщения */
+.text-input-block {
+    width: 100%;
+    height: 13%;
+    border-radius: 5px;
+    background-color: #373535;
+
+}
+
+.text-input-items {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+    height: 100%;
+    padding-left: 20px ;
+    padding-right: 20px ;
+
+}
+
+textarea {
+    width: 85%;
+    height: 25%;
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    background-color: #474545;
+    border: 1px #575656 solid;
+    resize: horizontal;
+    min-height: 25%;
+    max-height: 50%;
+    max-width: 85%;
+    min-width: 85%;
+}   
+
+.btn-icon {
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    background-color: #575656;
+    border-radius: 50px;
+}
+ 
+.btn-icon:active {
+    background-color:  #686767;
+}
 
     </style>
 
     
      <!-- <script src="../static/js/chatscript.js"></script> -->
     <script>
-        // var socket = new WebSocket("ws://127.0.0.1:5000");
-        // socket.onopen = function() {
-            // console.log("connected.");
-        // };
-  
+
+        const messengerMain = document.querySelector('.messanger-main');
         const scrollboxInner = document.querySelector('.scrollbox-inner')
-                    
+        const textarea = document.querySelector('.textarea')
+        const btnSend = document.querySelector('.btn-icon')
+        const text = textarea.value;
+
+        
+
                     const url = "http://127.0.0.1:5000"
                     axios.get(`${url}/get_chats`)
                     .then(response => {
@@ -170,6 +311,7 @@ body {
                                 // если chat_data это объект
                                 if(typeof chat_data == 'object') {
                                     for(const i in chat_data) {
+                                        
                                         const innerContainer = chat_data[i]
                                         
                                         const keys = Object.keys(innerContainer);
@@ -210,8 +352,24 @@ body {
 
                                         // обработка нажатия
                                         chatDiv.addEventListener('click', () => {
-                                            console.log(chat_id);
+                                            
+                                            var socket = new WebSocket("ws://127.0.0.1:5000");
+                        socket.onopen = function() {
+                            console.log("connected.");
+                            // Здесь вы можете вызвать метод send после успешного соединения
+                            socket.send('Your message');
+                        };
+
+                                            const elements = document.querySelectorAll('.message');
+                                                elements.forEach(element => {
+                                                element.remove();
+                                            });
+                                            document.querySelector('.messanger-block').style.display = "flex"
+                                            getMessage(chat_name, chat_id)
+                                            
                                         });
+
+
 
                             }
 
@@ -226,10 +384,61 @@ body {
 
         });
 
-        // var account_name = "first"
-        // var chat_id = "u2i-Y8cqQM9WS_zE3KdWIK5HyQ"
-        // const get_message_data = `?account_name=${account_name}&chat_id=${chat_id}`
 
+
+    const getMessage = (chat_name, chat_id) => {
+        const get_message_data = `?account_name=${chat_name}&chat_id=${chat_id}`
+            axios.post(`${url}/get_messages${get_message_data}`)
+            .then(response => {
+                const res = response.data
+
+                for (const i in res) {
+
+                    const data_msg = res[i]
+                    const {content, created, direction, is_read} = data_msg
+
+                    var check = "["
+
+                    if (content.startsWith(check)) {
+                        console.warn(`Blocking the system message Avito:\n`,  content )
+                    } else {
+                        const messageDiv = document.createElement('div')
+    
+
+
+
+                        messageDiv.classList.add('message')
+                        messengerMain.appendChild(messageDiv)
+    
+                        messageDiv.textContent = content
+                        
+                        if (direction == "in") {
+    
+                            messageDiv.classList.add('__other')
+    
+                        } else if (direction == "out") {
+    
+                            messageDiv.classList.add('__me')
+                        }
+
+                        
+
+                    }
+
+                }
+
+            })
+            .catch((err) => {
+                alert(err)
+            })
+    }
+
+
+        btnSend.addEventListener('click', () => {
+
+            console.log(textarea.value)
+
+        })
 
         // axios.post(`${url}/get_messages${get_message_data}`)
         // .then(response => {
