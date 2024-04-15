@@ -8,7 +8,6 @@
 
     <!-- Axios CDN -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
     <!-- <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script> -->
 
 
@@ -24,7 +23,12 @@
         <nav class="sidebar">
             <div class="scrollbox">
                 <div class="scrollbox-inner">
-                    <!-- <div class="chat"></div> -->
+                    <!-- <div class="chat">
+                        <div class="chatinfo">
+                            <h3 class="chat-name"></h3>
+                            <p class="chat-title"></p>
+                        </div>
+                    </div> -->
                 </div>
             </div>
         </nav>
@@ -93,12 +97,41 @@ body {
 }
 
 .chat {
+    cursor: pointer;
     width: 100%;
     height: 70px;
     margin-top: 10px;
     color: white;
     background-color: #302e2e;
+    border: 1px #302e2e solid;
     border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.chat:hover {
+    transition: all 0.3s;
+    border: 1px #a7b260 solid;
+}
+
+.chatinfo {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.chat-name {
+    color: white;
+    font-size: 20px;
+}
+
+.chat-title {
+    color: #a7b260;
+    /* color: #c6d94e; */
+    font-size: 16px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
 }
 
 .messangerBlock {
@@ -119,52 +152,139 @@ body {
         // socket.onopen = function() {
             // console.log("connected.");
         // };
-        // axios.get('http://127.0.0.1:5000/chats')
-        // .then(response => {
-        //     console.log(response.data);
-        // })
-        // .catch(error => {
-        //     console.error(error);
-        // });
-        // axios.post('127.0.0.1:5000/chats', {
-        //     firstName: 'Fred',
-        //     lastName: 'Flintstone'
-        // })
-        // .then(function (response) {
-        //     console.log(response);
-        // })
-        // .catch(function (error) {
-        //     console.log(error);
-        // });
-        const scrollboxInner = document.querySelector('.scrollbox-inner');
-        
-        
-        const data  = {
-                1: {
-                        10: "CN 10",
-                        11: "CN 11",
-                        12: "CN 12"
-                },
-                2: {
-                    20: "CN 20",
-                    21: "CN 21",
-                    22: "CN 22"
-                },
-                3: {
-                    33: "CN 33"
+  
+        const scrollboxInner = document.querySelector('.scrollbox-inner')
+                    
+                    const url = "http://127.0.0.1:5000"
+                    axios.get(`${url}/get_chats`)
+                    .then(response => {
+                        console.log(response.data)
+                        list_chat = response.data
+                        
+                        for(const chat_index in list_chat){
+                            chat_data = list_chat[chat_index]
+                            
+                            for(const chat_name in chat_data){
+                                
+                                const chat_data = list_chat[chat_index][chat_name]
+                                // если chat_data это объект
+                                if(typeof chat_data == 'object') {
+                                    for(const i in chat_data) {
+                                        const innerContainer = chat_data[i]
+                                        
+                                        const keys = Object.keys(innerContainer);
+                                        const chat_id = keys[0]
+                                        const chat_title = innerContainer[keys[0]] 
+                                        
+                                        // chatName.textContent = 'Текст для chat-name';
+                                        // chatTitle.textContent = 'Текст для chat-title';
+                                        
+                                        // Создание нового элемента div с классом 'chat'
+                                        const chatDiv = document.createElement('div');
+                                        chatDiv.className = 'chat';
+
+                                        // Создание элемента div с классом 'chatinfo'
+                                        const chatInfoDiv = document.createElement('div');
+                                        chatInfoDiv.className = 'chatinfo';
+
+                                        // Создание заголовка h3 с классом 'chat-name' и добавление значения
+                                        const chatName = document.createElement('h3');
+                                        chatName.className = 'chat-name';
+                                        chatName.textContent = chat_name;
+
+                                        // Создание абзаца с классом 'chat-title' и добавление значения
+                                        const chatTitle = document.createElement('p');
+                                        chatTitle.className = 'chat-title';
+                                        chatTitle.textContent = chat_title;
+
+                                        // Добавление заголовка и абзаца в элемент 'chatinfo'
+                                        chatInfoDiv.appendChild(chatName);
+                                        chatInfoDiv.appendChild(chatTitle);
+
+                                        // Добавление 'chatinfo' в 'chat'
+                                        chatDiv.appendChild(chatInfoDiv);
+
+                                        // Добавление 'chat' в контейнер чатов
+                                        scrollboxInner.appendChild(chatDiv);
+
+
+                                        // обработка нажатия
+                                        chatDiv.addEventListener('click', () => {
+                                            console.log(chat_id);
+                                        });
+
+                            }
+
+                        }
+              
+                        
+                    }
+
                 }
-        }
+
+  
+
+        });
+
+        // var account_name = "first"
+        // var chat_id = "u2i-Y8cqQM9WS_zE3KdWIK5HyQ"
+        // const get_message_data = `?account_name=${account_name}&chat_id=${chat_id}`
 
 
-        for (const user_id in data) {
-            const chat_name = data[user_id];
-            for (const chat_id in chat_name) {
-                const chatBlock = document.createElement('div');
-                chatBlock.classList.add('chat');
-                chatBlock.textContent = user_id + ": " + chat_id + " " + chat_name[chat_id];
-                scrollboxInner.appendChild(chatBlock);
-            }
-        }
+        // axios.post(`${url}/get_messages${get_message_data}`)
+        // .then(response => {
+        //     console.log(response.data)
+        // })
+        // .catch((err) => {
+        //     console.log(err)
+        // })
+
+
+        
+        // const list_chat  = {
+        //         0: {
+        //             f: {
+        //                 10: {"id" : 'value'},
+        //                 11: {"id" : 'value'},
+        //                 12: {"id" : 'value'},
+        //             },
+        //         },
+        //         1: {
+        //             a: {
+        //                 20: {"id" : 'value'},
+        //                 21: {"id" : 'value'},
+        //                 22: {"id" : 'value'},
+        //             },
+        //         },
+        //         2: {
+        //             g: {
+        //                 33: {"id" : 'value'},
+        //             }
+        //         }
+        // }
+
+
+        // for (const i in data) {
+        //     for (const key in data[i]) {
+        //     console.log(data[i][key])
+        //         if (typeof data[i][key] === 'object') {
+        //             for (const innerKey in data[i][key]) {
+        //                 if (data[i][key].hasOwnProperty(innerKey)) {
+        //                     console.log(innerKey + ": " + data[i][key][innerKey]);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
+        // for (const user_id in data) {
+        //     const chat_name = data[user_id];
+        //     for (const chat_id in chat_name) {
+        //         const chatBlock = document.createElement('div');
+        //         chatBlock.textContent = user_id + ": " + chat_id + " " + chat_name[chat_id];
+        //         scrollboxInner.appendChild(chatBlock);
+        //     }
+        // }
 
     </script>
 </body>

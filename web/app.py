@@ -56,7 +56,7 @@ manager = Manager()
 
 
 def return_html(file_name, headers: dict = None):
-    with open(f'./templates/{file_name}') as f:
+    with open(f'./web/templates/{file_name}') as f:
         return f.read()
 
 
@@ -98,6 +98,8 @@ def chats():
 
 @app.post('/get_messages')
 def api_get_messages(account_name, chat_id):
+    print("acc", account_name)
+    print("chat", chat_id)
     return accounts.get_messages(account_name, chat_id)
 
 

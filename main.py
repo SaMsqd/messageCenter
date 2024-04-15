@@ -1,6 +1,6 @@
 from bot import password
 from avito.account import Account
-
+from web import app
 
 account = Account(profile_id=159470220,
                   client_id='Pm4BmvaY4LPFHQ6Oo_Hu',
