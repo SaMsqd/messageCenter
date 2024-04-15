@@ -51,7 +51,7 @@
                 <div class="text-input-block">
                     <div class="text-input-items">
                         <textarea class="textarea" placeholder="Your Message ..."  rows="5" cols="33"></textarea>
-                        <div class="btn-icon"/>
+                        <div id="btnicon" class="btn-icon"/>
                     </div>
                 </div>
 
@@ -287,13 +287,13 @@ textarea {
     
      <!-- <script src="../static/js/chatscript.js"></script> -->
     <script>
-
+        
+        const textInputItems = document.querySelector('.text-input-items')
         const messengerMain = document.querySelector('.messanger-main');
         const scrollboxInner = document.querySelector('.scrollbox-inner')
         const textarea = document.querySelector('.textarea')
         const btnSend = document.querySelector('.btn-icon')
         const text = textarea.value;
-
         
 
                     const url = "http://127.0.0.1:5000"
@@ -348,97 +348,88 @@ textarea {
 
                                         // Добавление 'chat' в контейнер чатов
                                         scrollboxInner.appendChild(chatDiv);
-
+                                           
 
                                         // обработка нажатия
                                         chatDiv.addEventListener('click', () => {
-                                            
-                                            var socket = new WebSocket("ws://127.0.0.1:5000");
-                        socket.onopen = function() {
-                            console.log("connected.");
-                            // Здесь вы можете вызвать метод send после успешного соединения
-                            socket.send('Your message');
-                        };
+                                         
 
                                             const elements = document.querySelectorAll('.message');
                                                 elements.forEach(element => {
                                                 element.remove();
                                             });
                                             document.querySelector('.messanger-block').style.display = "flex"
-                                            getMessage(chat_name, chat_id)
-                                            
+                                            getMessage(chat_name, chat_id)    
+
                                         });
-
-
-
+                                    }
+                                }
                             }
-
                         }
-              
                         
-                    }
+                    });
 
-                }
-
-  
-
-        });
+        const getMessage = (chat_name, chat_id) => {
+            console.log("> ", chat_id)
 
 
 
-    const getMessage = (chat_name, chat_id) => {
-        const get_message_data = `?account_name=${chat_name}&chat_id=${chat_id}`
+            btnicon.onclick = function() {
+                console.log(chat_id, textarea.value)
+
+                const send_mess_url = `http://127.0.0.1:5000/send_message?account_name=${chat_name}&chat_id=${chat_id}&message=${textarea.value}`
+                // console.log(send_mess_url)
+                axios.post(send_mess_url)
+                .then((response) => {
+                    console.log(response.data)
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }
+
+ 
+
+            
+            const get_message_data = `?account_name=${chat_name}&chat_id=${chat_id}`
             axios.post(`${url}/get_messages${get_message_data}`)
             .then(response => {
-                const res = response.data
+                textInputItems.style.display = "flex"
 
+                const res = response.data    
                 for (const i in res) {
-
                     const data_msg = res[i]
                     const {content, created, direction, is_read} = data_msg
-
+                    
                     var check = "["
-
+                    
                     if (content.startsWith(check)) {
                         console.warn(`Blocking the system message Avito:\n`,  content )
                     } else {
                         const messageDiv = document.createElement('div')
-    
-
-
-
                         messageDiv.classList.add('message')
                         messengerMain.appendChild(messageDiv)
-    
                         messageDiv.textContent = content
                         
                         if (direction == "in") {
-    
                             messageDiv.classList.add('__other')
-    
-                        } else if (direction == "out") {
-    
+                        } else if (direction == "out") {    
                             messageDiv.classList.add('__me')
                         }
 
-                        
+
 
                     }
-
                 }
 
             })
             .catch((err) => {
                 alert(err)
+                textInputItems.style.display = "none"
             })
+
     }
 
 
-        btnSend.addEventListener('click', () => {
-
-            console.log(textarea.value)
-
-        })
 
         // axios.post(`${url}/get_messages${get_message_data}`)
         // .then(response => {
