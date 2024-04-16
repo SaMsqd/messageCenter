@@ -112,11 +112,15 @@ async def api_get_chats():
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> cb19e94 (123)
 
 @app.get('/send_messages')
 async def get_messages():
     await manager.broadcast('Test')
 
+<<<<<<< HEAD
 
 
 
@@ -128,4 +132,13 @@ def
 
 =======
 >>>>>>> 989a939 (Update app.py)
+=======
+@app.websocket('/get_messages')
+def
+
+
+
+
+
+>>>>>>> cb19e94 (123)
 uvicorn.run(app, host='0.0.0.0', port=10000)
