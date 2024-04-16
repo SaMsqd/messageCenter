@@ -115,9 +115,12 @@ def api_get_chats():
     return accounts.get_chats()
 
 
+<<<<<<< HEAD
 @app.websocket('/get_messages')
 def
 
 
 
+=======
+>>>>>>> 989a93938295d052b89acc04f4f43988bd04e982
 uvicorn.run(app, host='0.0.0.0', port=10000)
