@@ -25,12 +25,6 @@
         <nav class="sidebar">
             <div class="scrollbox">
                 <div class="scrollbox-inner">
-                    <!-- <div class="chat">
-                        <div class="chatinfo">
-                            <h3 class="chat-name"></h3>
-                            <p class="chat-title"></p>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </nav>
@@ -315,12 +309,8 @@ textarea {
 
                     const url = "http://127.0.0.1:5000"
 
-                    const socket = new WebSocket("ws://127.0.0.1:5000");
-
-                    socket.onopen = function() {
-                        console.log("Connect");
-                    };
-                    
+                    setTimeout(() => {      
+                        console.log("a")
                     axios.get(`${url}/get_chats`)
                     .then(response => {
                         list_chat = response.data
@@ -372,16 +362,22 @@ textarea {
                                         // Добавление 'chat' в контейнер чатов
                                         scrollboxInner.appendChild(chatDiv);
                                            
+   
+                                            // setTimeout(() => {console.log("on")}, 5)
+
 
                                         // обработка нажатия
                                         chatDiv.addEventListener('click', () => {
                                          
-
+                                            
                                             const elements = document.querySelectorAll('.message');
                                                 elements.forEach(element => {
                                                 element.remove();
                                             });
                                             document.querySelector('.messanger-block').style.display = "flex"
+
+                                            // for(const q in )
+                                            
                                             getMessage(chat_name, chat_id)    
 
                                         });
@@ -390,7 +386,7 @@ textarea {
                             }
                         }
                         
-                    });
+                    })}, 5)
 
         const getMessage = (chat_name, chat_id) => {
 
@@ -406,28 +402,21 @@ textarea {
                 document.getElementById('inputText').value = '';
             }
 
-            socket.onerror = function(error) {
-                console.log("Err " + error.message);
-            };
+            getMessageNow(chat_name, chat_id)
 
-            socket.onmessage = function(event) {
-                console.log("data " + event.data);
-            }
+            // setInterval(() => {
+            //     const elements = document.querySelectorAll('.message');
+            //     elements.forEach(element => {
+            //         element.remove();
+            //     });
+            //     // getMessageNow(chat_name, chat_id)
+            // }, 3);
+        }
 
-            socket.onclose = function(event) {
-                if (event.wasClean) {
-                    alert('connect close');
-                } else {
-                    alert('disconn'); // например, "убит" процесс сервера
-                }
-                alert('Code: ' + event.code + ' Xz: ' + event.reason);
-            };
-   
-            
 
-                // alert("Получены данные " + event.data);
-              
-                const get_message_data = `?account_name=${chat_name}&chat_id=${chat_id}`
+        const getMessageNow = (chat_name, chat_id) => {
+
+            const get_message_data = `?account_name=${chat_name}&chat_id=${chat_id}`
                 axios.post(`${url}/get_messages${get_message_data}`)
                 .then(response => {
                 textInputItems.style.display = "flex"
@@ -446,22 +435,22 @@ textarea {
                         messengerMain.appendChild(messageDiv)
                         messageDiv.textContent = content
 
-                        const checkDiv = document.createElement('div')
-                        checkDiv.classList.add('check')
-                        checkDiv.innerHTML = '&#10003;&#10003;'
-                        messageDiv.appendChild(checkDiv)
-                        checkDiv.style.display = 'none'
+                        // const checkDiv = document.createElement('div')
+                        // checkDiv.classList.add('check')
+                        // checkDiv.innerHTML = '&#10003;&#10003;'
+                        // messageDiv.appendChild(checkDiv)
+                        // checkDiv.style.display = 'none'
 
 
                         if (direction == "in") {
                             messageDiv.classList.add('__other')
                         } else if (direction == "out") {    
                             messageDiv.classList.add('__me')
-                            if (is_read) {
-                                checkDiv.style.display = 'block'
-                            } else {
-                                checkDiv.style.display = 'none'
-                            }
+                            // if (is_read) {
+                            //     checkDiv.style.display = 'block'
+                            // } else {
+                            //     checkDiv.style.display = 'none'
+                            // }
                         }
                     }
                 }
@@ -471,7 +460,10 @@ textarea {
                 alert(err)
                 textInputItems.style.display = "none"
             })
-    }
+
+
+        }
+
 
     </script>
 </body>
