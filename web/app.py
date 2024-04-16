@@ -111,6 +111,7 @@ async def api_get_chats():
     return accounts.get_chats()
 
 
+<<<<<<< HEAD
 
 @app.get('/send_messages')
 async def get_messages():
@@ -125,4 +126,6 @@ def
 
 
 
+=======
+>>>>>>> 989a939 (Update app.py)
 uvicorn.run(app, host='0.0.0.0', port=10000)
