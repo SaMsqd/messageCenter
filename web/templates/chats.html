@@ -41,11 +41,6 @@
                 <div class="message-block">
 
                     <div class="messanger-main">
-                        <div class="message __me">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam iure iste, placeat perferendis soluta velit rem cupiditate amet! Deleniti placeat eligendi, nesciunt quis velit obcaecati fugiat excepturi inventore animi maxime.
-                        
-                            <p class="check">&#10003;&#10003;</p>
-                        </div>
                         
 
                         
@@ -55,7 +50,7 @@
 
                 <div class="text-input-block">
                     <div class="text-input-items">
-                        <textarea class="textarea" placeholder="Your Message ..."  rows="5" cols="33"></textarea>
+                        <textarea id="inputText" class="textarea" placeholder="Your Message ..."  rows="5" cols="33"></textarea>
                         <div id="btnicon" class="btn-icon"/>
                     </div>
                 </div>
@@ -177,7 +172,7 @@ body {
 }
 
 .messanger-block {
-    /* display: none; */
+    display: none;
     position: fixed;
     right: 0;
     flex-direction: column;
@@ -326,6 +321,7 @@ textarea {
                         console.log("connect");
                     };
 
+
                     axios.get(`${url}/get_chats`)
                     .then(response => {
                         list_chat = response.data
@@ -410,19 +406,20 @@ textarea {
                 }).catch((err) => {
                     console.log(err)
                 })
+                document.getElementById('inputText').value = '';
             }
 
                 // alert("Получены данные " + event.data);
               
                 const get_message_data = `?account_name=${chat_name}&chat_id=${chat_id}`
-            axios.post(`${url}/get_messages${get_message_data}`)
-            .then(response => {
+                axios.post(`${url}/get_messages${get_message_data}`)
+                .then(response => {
                 textInputItems.style.display = "flex"
                 const res = response.data    
                 for (const i in res) {
                     const data_msg = res[i]
                     const {content, created, direction, is_read} = data_msg
-                    console.log(content, is_read)
+           
                     var check = "["
                     
                     if (content.startsWith(check)) {
@@ -458,17 +455,7 @@ textarea {
                 alert(err)
                 textInputItems.style.display = "none"
             })
-
-            
-            
-
-
-            
-            
-
     }
-
-
 
         // axios.post(`${url}/get_messages${get_message_data}`)
         // .then(response => {
