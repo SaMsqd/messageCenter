@@ -90,7 +90,7 @@ async def web_socket(ws: WebSocket):
 
 
 @app.get('/chats', response_class=fastapi.responses.HTMLResponse)
-@app.post('/chats', response_class=fastapi.responses.HTMLResponse)
+@app.post('/chats', response_class=fastapi.responses.HTMLResponse) 
 #@check_cookies
 def chats():
     return return_html('chats.html')
@@ -98,8 +98,6 @@ def chats():
 
 @app.post('/get_messages')
 def api_get_messages(account_name, chat_id):
-    print("acc", account_name)
-    print("chat", chat_id)
     return accounts.get_messages(account_name, chat_id)
 
 
