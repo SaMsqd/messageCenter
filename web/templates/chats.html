@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-16">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- <link rel="stylesheet" href="../static/css/chats.css"> -->
@@ -42,8 +42,6 @@
 
                     <div class="messanger-main">
 
-                        <!-- <div class="message __me"></div>
-                        <div class="message __other"></div> -->
                     </div>
                     
                 </div>
@@ -282,6 +280,19 @@ textarea {
     background-color:  #686767;
 }
 
+.check {
+    position: absolute;
+    color: #a7b260;
+    margin-top: 5px;
+    /* border: 1px red solid; */
+}
+.check-no {
+    position: absolute;
+    color: #a3a49f;
+    margin-top: 5px;
+    /* border: 1px red solid; */
+}
+
     </style>
 
     
@@ -297,9 +308,17 @@ textarea {
         
 
                     const url = "http://127.0.0.1:5000"
+
+
+
+
+                    var socket = new WebSocket("ws://127.0.0.1:5000");
+                    socket.onopen = function() {
+                        console.log("connect");
+                    };
+
                     axios.get(`${url}/get_chats`)
                     .then(response => {
-                        console.log(response.data)
                         list_chat = response.data
                         
                         for(const chat_index in list_chat){
@@ -311,13 +330,13 @@ textarea {
                                 // если chat_data это объект
                                 if(typeof chat_data == 'object') {
                                     for(const i in chat_data) {
-                                        
+                                       
                                         const innerContainer = chat_data[i]
-                                        
                                         const keys = Object.keys(innerContainer);
                                         const chat_id = keys[0]
                                         const chat_title = innerContainer[keys[0]] 
-                                        
+                                                                            
+
                                         // chatName.textContent = 'Текст для chat-name';
                                         // chatTitle.textContent = 'Текст для chat-title';
                                         
@@ -370,13 +389,10 @@ textarea {
                     });
 
         const getMessage = (chat_name, chat_id) => {
-            console.log("> ", chat_id)
 
-
+            // console.clear()
 
             btnicon.onclick = function() {
-                console.log(chat_id, textarea.value)
-
                 const send_mess_url = `http://127.0.0.1:5000/send_message?account_name=${chat_name}&chat_id=${chat_id}&message=${textarea.value}`
                 // console.log(send_mess_url)
                 axios.post(send_mess_url)
@@ -387,19 +403,17 @@ textarea {
                 })
             }
 
- 
-
-            
-            const get_message_data = `?account_name=${chat_name}&chat_id=${chat_id}`
+                // alert("Получены данные " + event.data);
+              
+                const get_message_data = `?account_name=${chat_name}&chat_id=${chat_id}`
             axios.post(`${url}/get_messages${get_message_data}`)
             .then(response => {
                 textInputItems.style.display = "flex"
-
                 const res = response.data    
                 for (const i in res) {
                     const data_msg = res[i]
                     const {content, created, direction, is_read} = data_msg
-                    
+                    console.log(content, is_read)
                     var check = "["
                     
                     if (content.startsWith(check)) {
@@ -409,15 +423,24 @@ textarea {
                         messageDiv.classList.add('message')
                         messengerMain.appendChild(messageDiv)
                         messageDiv.textContent = content
-                        
+
+                        const checkDiv = document.createElement('div')
+                        checkDiv.classList.add('check')
+                        checkDiv.innerHTML = '&#10003;&#10003;'
+                        messageDiv.appendChild(checkDiv)
+                        checkDiv.style.display = 'none'
+
+
                         if (direction == "in") {
                             messageDiv.classList.add('__other')
                         } else if (direction == "out") {    
                             messageDiv.classList.add('__me')
+                            if (is_read) {
+                                checkDiv.style.display = 'block'
+                            } else {
+                                checkDiv.style.display = 'none'
+                            }
                         }
-
-
-
                     }
                 }
 
@@ -426,6 +449,13 @@ textarea {
                 alert(err)
                 textInputItems.style.display = "none"
             })
+
+            
+            
+
+
+            
+            
 
     }
 
