@@ -113,22 +113,16 @@ async def api_get_chats():
     return accounts.get_chats()
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 @app.get('/send_messages')
 async def get_messages():
     await manager.broadcast('Test')
-=======
+
 @app.websocket('/get_messages')
 def
->>>>>>> 182508301766f0ac0b3d60e57192e3fe8217e996
 
 
 
-=======
-<<<<<<< HEAD
->>>>>>> 989a939 (Update app.py)
-=======
->>>>>>> 989a93938295d052b89acc04f4f43988bd04e982
->>>>>>> 182508301766f0ac0b3d60e57192e3fe8217e996
+
+
 uvicorn.run(app, host='0.0.0.0', port=10000)
