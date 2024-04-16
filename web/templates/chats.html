@@ -35,7 +35,7 @@
             </div>
         </nav>
         <div class="pashalka">
-            messangeCenter 
+            messageCenter 
         </div>
         <div class="messanger-block">
             <div class="main-chat-block">
@@ -303,7 +303,7 @@ textarea {
 
     
      <!-- <script src="../static/js/chatscript.js"></script> -->
-    <script>
+    <script  charset="utf-8">
         
         const textInputItems = document.querySelector('.text-input-items')
         const messengerMain = document.querySelector('.messanger-main');
@@ -315,15 +315,12 @@ textarea {
 
                     const url = "http://127.0.0.1:5000"
 
+                    const socket = new WebSocket("ws://127.0.0.1:5000");
 
-
-
-                    var socket = new WebSocket("ws://127.0.0.1:5000");
                     socket.onopen = function() {
-                        console.log("connect");
+                        console.log("Connect");
                     };
-
-
+                    
                     axios.get(`${url}/get_chats`)
                     .then(response => {
                         list_chat = response.data
@@ -397,11 +394,9 @@ textarea {
 
         const getMessage = (chat_name, chat_id) => {
 
-            // console.clear()
 
             btnicon.onclick = function() {
                 const send_mess_url = `http://127.0.0.1:5000/send_message?account_name=${chat_name}&chat_id=${chat_id}&message=${textarea.value}`
-                // console.log(send_mess_url)
                 axios.post(send_mess_url)
                 .then((response) => {
                     console.log(response.data)
@@ -410,6 +405,25 @@ textarea {
                 })
                 document.getElementById('inputText').value = '';
             }
+
+            socket.onerror = function(error) {
+                console.log("Err " + error.message);
+            };
+
+            socket.onmessage = function(event) {
+                console.log("data " + event.data);
+            }
+
+            socket.onclose = function(event) {
+                if (event.wasClean) {
+                    alert('connect close');
+                } else {
+                    alert('disconn'); // например, "убит" процесс сервера
+                }
+                alert('Code: ' + event.code + ' Xz: ' + event.reason);
+            };
+   
+            
 
                 // alert("Получены данные " + event.data);
               
@@ -458,61 +472,6 @@ textarea {
                 textInputItems.style.display = "none"
             })
     }
-
-        // axios.post(`${url}/get_messages${get_message_data}`)
-        // .then(response => {
-        //     console.log(response.data)
-        // })
-        // .catch((err) => {
-        //     console.log(err)
-        // })
-
-
-        
-        // const list_chat  = {
-        //         0: {
-        //             f: {
-        //                 10: {"id" : 'value'},
-        //                 11: {"id" : 'value'},
-        //                 12: {"id" : 'value'},
-        //             },
-        //         },
-        //         1: {
-        //             a: {
-        //                 20: {"id" : 'value'},
-        //                 21: {"id" : 'value'},
-        //                 22: {"id" : 'value'},
-        //             },
-        //         },
-        //         2: {
-        //             g: {
-        //                 33: {"id" : 'value'},
-        //             }
-        //         }
-        // }
-
-
-        // for (const i in data) {
-        //     for (const key in data[i]) {
-        //     console.log(data[i][key])
-        //         if (typeof data[i][key] === 'object') {
-        //             for (const innerKey in data[i][key]) {
-        //                 if (data[i][key].hasOwnProperty(innerKey)) {
-        //                     console.log(innerKey + ": " + data[i][key][innerKey]);
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-        // for (const user_id in data) {
-        //     const chat_name = data[user_id];
-        //     for (const chat_id in chat_name) {
-        //         const chatBlock = document.createElement('div');
-        //         chatBlock.textContent = user_id + ": " + chat_id + " " + chat_name[chat_id];
-        //         scrollboxInner.appendChild(chatBlock);
-        //     }
-        // }
 
     </script>
 </body>

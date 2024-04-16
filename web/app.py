@@ -4,13 +4,15 @@ from fastapi.responses import HTMLResponse, Response
 
 from avito.account import Account, AccountList
 
+from rich.console import Console
+
 from main import get_password as PW
 import uvicorn
 
 
 app = fastapi.FastAPI()
 
-
+console = Console()
 accounts = AccountList()
 
 accounts.add(Account(profile_id=159470220,
@@ -37,7 +39,10 @@ class Manager:
 
     async def broadcast(self, message):
         for con in self.active_connections:
-            await con.send_text(message)
+            try:
+                await con.send_text(message)
+            except Exception:
+                pass
 
 # def check_cookies(f):
 #     """
@@ -97,8 +102,6 @@ async def chats():
 
 @app.post('/get_messages')
 async def api_get_messages(account_name, chat_id):
-    print("acc", account_name)
-    print("chat", chat_id)
     return accounts.get_messages(account_name, chat_id)
 
 
@@ -115,8 +118,10 @@ async def api_get_chats():
 
 @app.get('/send_messages')
 async def get_messages():
-    await manager.broadcast('Test')
-
+    try:
+        await manager.broadcast('Test')
+    except Exception:
+        console.print_exception(show_locals=True)
 
 
 uvicorn.run(app, host='127.0.0.1', port=5000)
