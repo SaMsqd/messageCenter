@@ -12,9 +12,13 @@
     
     <!-- Socket io -->
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     <script src="/socket.io/socket.io.js"></script>
 >>>>>>> 81aa3b1 (cdn socket)
+=======
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
+>>>>>>> 7568849 (tets)
 
 
 
@@ -316,15 +320,15 @@ textarea {
         const text = textarea.value;
         
 
-                    const url = "http://127.0.0.1:5000"
+                    const url = "https://messagecenter-9p86.onrender.com"
 
 
 
 
-                    var socket = new WebSocket("ws://127.0.0.1:5000");
-                    socket.onopen = function() {
-                        console.log("connect");
-                    };
+                    // var socket = new WebSocket("ws://127.0.0.1:5000");
+                    // socket.onopen = function() {
+                    //     console.log("connect");
+                    // };
 
 
                     axios.get(`${url}/get_chats`)
@@ -403,7 +407,7 @@ textarea {
             // console.clear()
 
             btnicon.onclick = function() {
-                const send_mess_url = `http://127.0.0.1:5000/send_message?account_name=${chat_name}&chat_id=${chat_id}&message=${textarea.value}`
+                const send_mess_url = `https://messagecenter-9p86.onrender.com/send_message?account_name=${chat_name}&chat_id=${chat_id}&message=${textarea.value}`
                 // console.log(send_mess_url)
                 axios.post(send_mess_url)
                 .then((response) => {
