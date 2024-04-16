@@ -29,6 +29,7 @@ class Manager:
         self.active_connections.append(ws)
 
     async def disconnect(self, ws: WebSocket):
+        print('Юзер ')
         self.active_connections.remove(ws)
 
     async def send_message(self, ws: WebSocket, message):
@@ -90,7 +91,7 @@ async def web_socket(ws: WebSocket):
 
 
 @app.get('/chats', response_class=fastapi.responses.HTMLResponse)
-@app.post('/chats', response_class=fastapi.responses.HTMLResponse) 
+@app.post('/chats', response_class=fastapi.responses.HTMLResponse)
 #@check_cookies
 def chats():
     return return_html('chats.html')
@@ -98,6 +99,8 @@ def chats():
 
 @app.post('/get_messages')
 def api_get_messages(account_name, chat_id):
+    print("acc", account_name)
+    print("chat", chat_id)
     return accounts.get_messages(account_name, chat_id)
 
 
@@ -112,4 +115,9 @@ def api_get_chats():
     return accounts.get_chats()
 
 
-uvicorn.run(app, port=5000, host='127.0.0.1')
+@app.websocket('/get_messages')
+def
+
+
+
+uvicorn.run(app, host='0.0.0.0', port=10000)
