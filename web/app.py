@@ -118,11 +118,5 @@ async def api_get_chats():
 async def get_messages():
     await manager.broadcast('Test')
 
-@app.websocket('/get_messages')
-def
-
-
-
-
 
 uvicorn.run(app, host='0.0.0.0', port=10000)
