@@ -85,38 +85,37 @@ async def login(password: str = ''):
 @app.websocket('/')
 async def web_socket(ws: WebSocket):
     await manager.connect(ws)
-    while True:
-        data = await ws.receive_text()
-        await manager.broadcast(data)
+
 
 
 @app.get('/chats', response_class=fastapi.responses.HTMLResponse)
 @app.post('/chats', response_class=fastapi.responses.HTMLResponse)
 #@check_cookies
-def chats():
+async def chats():
     return return_html('chats.html')
 
 
 @app.post('/get_messages')
-def api_get_messages(account_name, chat_id):
+async def api_get_messages(account_name, chat_id):
     print("acc", account_name)
     print("chat", chat_id)
     return accounts.get_messages(account_name, chat_id)
 
 
 @app.post('/send_message')
-def api_send_message(account_name, chat_id, message):
+async def api_send_message(account_name, chat_id, message):
     accounts.send_message(account_name, chat_id, message)
     return 200
 
 
 @app.get('/get_chats')
-def api_get_chats():
+async def api_get_chats():
     return accounts.get_chats()
 
 
-@app.websocket('/get_messages')
-def
+@app.get('/send_messages')
+async def get_messages():
+    await manager.broadcast('Test')
 
 
 
