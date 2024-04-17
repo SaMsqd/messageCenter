@@ -8,10 +8,10 @@
 
     <!-- Axios CDN -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <!-- <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
 
     <!-- Socket io -->
-    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.socket.io/4.7.5/socket.io.esm.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script> -->
     
 
 
@@ -308,9 +308,34 @@ textarea {
         
 
                     const url = "http://127.0.0.1:5000"
+       
+                    let socket = new WebSocket("ws://127.0.0.1:5000/endless_ws");
 
-                    setTimeout(() => {      
-                        console.log("a")
+                    socket.onopen = function(e) {
+                    console.log("Sending to server", e);
+            
+                    };
+
+                    socket.onmessage = function(event) {
+                        console.log(`[message] Data received from server: ${event.data}`);
+                    };
+
+                    socket.onclose = function(event) {
+                    if (event.wasClean) {
+                        console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+                    } else {
+                        // e.g. server process killed or network down
+                        // event.code is usually 1006 in this case
+                        console.log('[close] Connection died', event);
+                    }
+                    };
+
+                    socket.onerror = function(error) {
+                        console.log(`[error]`);
+                    };
+
+
+
                     axios.get(`${url}/get_chats`)
                     .then(response => {
                         list_chat = response.data
@@ -386,7 +411,7 @@ textarea {
                             }
                         }
                         
-                    })}, 5)
+                    })
 
         const getMessage = (chat_name, chat_id) => {
 
