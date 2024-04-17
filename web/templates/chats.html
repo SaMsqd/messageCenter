@@ -303,7 +303,7 @@ textarea {
         
 
         const address = "127.0.0.1:5000"
-        let socket = new WebSocket(`ws://${address}/endless_ws`);
+        let socket = new WebSocket(`ws://${address}/connect_ws`);
 
         socket.onopen = function(e) {
             console.log("Sending to server", e);   
