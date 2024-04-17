@@ -9,9 +9,11 @@
     <!-- Axios CDN -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script> -->
-    
-    <!-- Socket io CDN -->
+
+    <!-- Socket io -->
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+    
+
 
     <title>MessageCenter | Chats</title>
 </head>
@@ -23,17 +25,11 @@
         <nav class="sidebar">
             <div class="scrollbox">
                 <div class="scrollbox-inner">
-                    <!-- <div class="chat">
-                        <div class="chatinfo">
-                            <h3 class="chat-name"></h3>
-                            <p class="chat-title"></p>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </nav>
         <div class="pashalka">
-            messangeCenter 
+            messageCenter 
         </div>
         <div class="messanger-block">
             <div class="main-chat-block">
@@ -301,7 +297,7 @@ textarea {
 
     
      <!-- <script src="../static/js/chatscript.js"></script> -->
-    <script>
+    <script  charset="utf-8">
         
         const textInputItems = document.querySelector('.text-input-items')
         const messengerMain = document.querySelector('.messanger-main');
@@ -311,17 +307,10 @@ textarea {
         const text = textarea.value;
         
 
-                    const url = "https://messagecenter-9p86.onrender.com"
+                    const url = "http://127.0.0.1:5000"
 
-
-
-
-                    // var socket = new WebSocket("ws://127.0.0.1:5000");
-                    // socket.onopen = function() {
-                    //     console.log("connect");
-                    // };
-
-
+                    setTimeout(() => {      
+                        console.log("a")
                     axios.get(`${url}/get_chats`)
                     .then(response => {
                         list_chat = response.data
@@ -373,16 +362,22 @@ textarea {
                                         // Добавление 'chat' в контейнер чатов
                                         scrollboxInner.appendChild(chatDiv);
                                            
+   
+                                            // setTimeout(() => {console.log("on")}, 5)
+
 
                                         // обработка нажатия
                                         chatDiv.addEventListener('click', () => {
                                          
-
+                                            
                                             const elements = document.querySelectorAll('.message');
                                                 elements.forEach(element => {
                                                 element.remove();
                                             });
                                             document.querySelector('.messanger-block').style.display = "flex"
+
+                                            // for(const q in )
+                                            
                                             getMessage(chat_name, chat_id)    
 
                                         });
@@ -391,15 +386,13 @@ textarea {
                             }
                         }
                         
-                    });
+                    })}, 5)
 
         const getMessage = (chat_name, chat_id) => {
 
-            // console.clear()
 
             btnicon.onclick = function() {
-                const send_mess_url = `https://messagecenter-9p86.onrender.com/send_message?account_name=${chat_name}&chat_id=${chat_id}&message=${textarea.value}`
-                // console.log(send_mess_url)
+                const send_mess_url = `http://127.0.0.1:5000/send_message?account_name=${chat_name}&chat_id=${chat_id}&message=${textarea.value}`
                 axios.post(send_mess_url)
                 .then((response) => {
                     console.log(response.data)
@@ -409,9 +402,21 @@ textarea {
                 document.getElementById('inputText').value = '';
             }
 
-                // alert("Получены данные " + event.data);
-              
-                const get_message_data = `?account_name=${chat_name}&chat_id=${chat_id}`
+            getMessageNow(chat_name, chat_id)
+
+            // setInterval(() => {
+            //     const elements = document.querySelectorAll('.message');
+            //     elements.forEach(element => {
+            //         element.remove();
+            //     });
+            //     // getMessageNow(chat_name, chat_id)
+            // }, 3);
+        }
+
+
+        const getMessageNow = (chat_name, chat_id) => {
+
+            const get_message_data = `?account_name=${chat_name}&chat_id=${chat_id}`
                 axios.post(`${url}/get_messages${get_message_data}`)
                 .then(response => {
                 textInputItems.style.display = "flex"
@@ -430,22 +435,22 @@ textarea {
                         messengerMain.appendChild(messageDiv)
                         messageDiv.textContent = content
 
-                        const checkDiv = document.createElement('div')
-                        checkDiv.classList.add('check')
-                        checkDiv.innerHTML = '&#10003;&#10003;'
-                        messageDiv.appendChild(checkDiv)
-                        checkDiv.style.display = 'none'
+                        // const checkDiv = document.createElement('div')
+                        // checkDiv.classList.add('check')
+                        // checkDiv.innerHTML = '&#10003;&#10003;'
+                        // messageDiv.appendChild(checkDiv)
+                        // checkDiv.style.display = 'none'
 
 
                         if (direction == "in") {
                             messageDiv.classList.add('__other')
                         } else if (direction == "out") {    
                             messageDiv.classList.add('__me')
-                            if (is_read) {
-                                checkDiv.style.display = 'block'
-                            } else {
-                                checkDiv.style.display = 'none'
-                            }
+                            // if (is_read) {
+                            //     checkDiv.style.display = 'block'
+                            // } else {
+                            //     checkDiv.style.display = 'none'
+                            // }
                         }
                     }
                 }
@@ -455,62 +460,10 @@ textarea {
                 alert(err)
                 textInputItems.style.display = "none"
             })
-    }
-
-        // axios.post(`${url}/get_messages${get_message_data}`)
-        // .then(response => {
-        //     console.log(response.data)
-        // })
-        // .catch((err) => {
-        //     console.log(err)
-        // })
 
 
-        
-        // const list_chat  = {
-        //         0: {
-        //             f: {
-        //                 10: {"id" : 'value'},
-        //                 11: {"id" : 'value'},
-        //                 12: {"id" : 'value'},
-        //             },
-        //         },
-        //         1: {
-        //             a: {
-        //                 20: {"id" : 'value'},
-        //                 21: {"id" : 'value'},
-        //                 22: {"id" : 'value'},
-        //             },
-        //         },
-        //         2: {
-        //             g: {
-        //                 33: {"id" : 'value'},
-        //             }
-        //         }
-        // }
+        }
 
-
-        // for (const i in data) {
-        //     for (const key in data[i]) {
-        //     console.log(data[i][key])
-        //         if (typeof data[i][key] === 'object') {
-        //             for (const innerKey in data[i][key]) {
-        //                 if (data[i][key].hasOwnProperty(innerKey)) {
-        //                     console.log(innerKey + ": " + data[i][key][innerKey]);
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-        // for (const user_id in data) {
-        //     const chat_name = data[user_id];
-        //     for (const chat_id in chat_name) {
-        //         const chatBlock = document.createElement('div');
-        //         chatBlock.textContent = user_id + ": " + chat_id + " " + chat_name[chat_id];
-        //         scrollboxInner.appendChild(chatBlock);
-        //     }
-        // }
 
     </script>
 </body>

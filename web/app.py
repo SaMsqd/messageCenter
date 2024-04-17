@@ -1,3 +1,5 @@
+import time
+
 import fastapi
 from fastapi import WebSocket
 from fastapi.responses import HTMLResponse, Response
@@ -9,8 +11,6 @@ import uvicorn
 
 
 app = fastapi.FastAPI()
-
-
 accounts = AccountList()
 
 accounts.add(Account(profile_id=159470220,
@@ -37,7 +37,11 @@ class Manager:
 
     async def broadcast(self, message):
         for con in self.active_connections:
-            await con.send_text(message)
+            try:
+                await con.send_text(message)
+            except Exception:
+                pass
+
 
 # def check_cookies(f):
 #     """
@@ -82,9 +86,17 @@ async def login(password: str = ''):
         return HTMLResponse(return_html('index.html'))
 
 
-@app.websocket('/')
+@app.websocket('/connect_ws')
 async def web_socket(ws: WebSocket):
     await manager.connect(ws)
+
+
+@app.websocket('/endless_ws')
+async def endless_ws(ws: WebSocket):
+    await ws.accept()
+    while True:
+        await ws.send('Some data From WS')
+        time.sleep(2)
 
 
 
@@ -96,7 +108,7 @@ async def chats():
 
 
 @app.post('/get_messages')
-def api_get_messages(account_name, chat_id):
+async def api_get_messages(account_name, chat_id):
     return accounts.get_messages(account_name, chat_id)
 
 
@@ -111,26 +123,12 @@ async def api_get_chats():
     return accounts.get_chats()
 
 
-
-
 @app.get('/send_messages')
 async def get_messages():
-    await manager.broadcast('Test')
+    try:
+        await manager.broadcast('Test')
+    except Exception:
+        pass
 
 
-
-
-@app.websocket('/get_messages')
-def
-
-
-
-
-@app.websocket('/get_messages')
-def
-
-
-
-
-
-uvicorn.run(app, host='0.0.0.0', port=10000)
+uvicorn.run(app, host='127.0.0.1', port=5000)
