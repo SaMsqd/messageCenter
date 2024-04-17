@@ -15,4 +15,4 @@ urllib3~=2.2.1
 click~=8.1.7
 idna~=3.7
 schedule~=1.2.1
-pytelebotapi
+pytelebotgramapi

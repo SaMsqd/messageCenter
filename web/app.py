@@ -1,18 +1,16 @@
+import time
+
 import fastapi
 from fastapi import WebSocket
 from fastapi.responses import HTMLResponse, Response
 
 from avito.account import Account, AccountList
 
-from rich.console import Console
-
 from main import get_password as PW
 import uvicorn
 
 
 app = fastapi.FastAPI()
-
-console = Console()
 accounts = AccountList()
 
 accounts.add(Account(profile_id=159470220,
@@ -43,6 +41,7 @@ class Manager:
                 await con.send_text(message)
             except Exception:
                 pass
+
 
 # def check_cookies(f):
 #     """
@@ -87,9 +86,17 @@ async def login(password: str = ''):
         return HTMLResponse(return_html('index.html'))
 
 
-@app.websocket('/')
+@app.websocket('/connect_ws')
 async def web_socket(ws: WebSocket):
     await manager.connect(ws)
+
+
+@app.websocket('/endless_ws')
+async def endless_ws(ws: WebSocket):
+    await ws.accept()
+    while True:
+        await ws.send('Some data From WS')
+        time.sleep(2)
 
 
 
@@ -121,7 +128,7 @@ async def get_messages():
     try:
         await manager.broadcast('Test')
     except Exception:
-        console.print_exception(show_locals=True)
+        pass
 
 
 uvicorn.run(app, host='127.0.0.1', port=5000)
