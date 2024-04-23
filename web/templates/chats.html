@@ -21,7 +21,7 @@
     
 
     <div class="wrapper">
-
+        
         <nav class="sidebar">
             <div class="scrollbox">
                 <div class="scrollbox-inner">
@@ -30,6 +30,7 @@
         </nav>
         <div class="pashalka">
             messageCenter 
+
         </div>
         <div class="messanger-block">
             <div class="main-chat-block">
@@ -298,196 +299,34 @@ textarea {
     
      <!-- <script src="../static/js/chatscript.js"></script> -->
     <script  charset="utf-8">
-        
-        const textInputItems = document.querySelector('.text-input-items')
-        const messengerMain = document.querySelector('.messanger-main');
-        const scrollboxInner = document.querySelector('.scrollbox-inner')
-        const textarea = document.querySelector('.textarea')
-        const btnSend = document.querySelector('.btn-icon')
-        const text = textarea.value;
+
         
 
-                    const url = "http://127.0.0.1:5000"
-       
-                    let socket = new WebSocket("ws://127.0.0.1:5000/endless_ws");
+        const address = "127.0.0.1:5000"
+        let socket = new WebSocket(`ws://${address}/connect_ws`);
 
-                    socket.onopen = function(e) {
-                    console.log("Sending to server", e);
-            
-                    };
+        socket.onopen = function(e) {
+            console.log("Sending to server", e);   
+        };
 
-                    socket.onmessage = function(event) {
-                        console.log(`[message] Data received from server: ${event.data}`);
-                    };
+        socket.onmessage = function(event) {
+            console.log(`Data:: `, event.data);
+        };
 
-                    socket.onclose = function(event) {
-                    if (event.wasClean) {
-                        console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
-                    } else {
-                        // e.g. server process killed or network down
-                        // event.code is usually 1006 in this case
-                        console.log('[close] Connection died', event);
-                    }
-                    };
+        socket.onclose = function(event) {
+            if (event.wasClean) {
+                console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+            } else {
 
-                    socket.onerror = function(error) {
-                        console.log(`[error]`);
-                    };
-
-
-
-                    axios.get(`${url}/get_chats`)
-                    .then(response => {
-                        list_chat = response.data
-                        
-                        for(const chat_index in list_chat){
-                            chat_data = list_chat[chat_index]
-                            
-                            for(const chat_name in chat_data){
-                                
-                                const chat_data = list_chat[chat_index][chat_name]
-                                // если chat_data это объект
-                                if(typeof chat_data == 'object') {
-                                    for(const i in chat_data) {
-                                       
-                                        const innerContainer = chat_data[i]
-                                        const keys = Object.keys(innerContainer);
-                                        const chat_id = keys[0]
-                                        const chat_title = innerContainer[keys[0]] 
-                                                                            
-
-                                        // chatName.textContent = 'Текст для chat-name';
-                                        // chatTitle.textContent = 'Текст для chat-title';
-                                        
-                                        // Создание нового элемента div с классом 'chat'
-                                        const chatDiv = document.createElement('div');
-                                        chatDiv.className = 'chat';
-
-                                        // Создание элемента div с классом 'chatinfo'
-                                        const chatInfoDiv = document.createElement('div');
-                                        chatInfoDiv.className = 'chatinfo';
-
-                                        // Создание заголовка h3 с классом 'chat-name' и добавление значения
-                                        const chatName = document.createElement('h3');
-                                        chatName.className = 'chat-name';
-                                        chatName.textContent = chat_name;
-
-                                        // Создание абзаца с классом 'chat-title' и добавление значения
-                                        const chatTitle = document.createElement('p');
-                                        chatTitle.className = 'chat-title';
-                                        chatTitle.textContent = chat_title;
-
-                                        // Добавление заголовка и абзаца в элемент 'chatinfo'
-                                        chatInfoDiv.appendChild(chatName);
-                                        chatInfoDiv.appendChild(chatTitle);
-
-                                        // Добавление 'chatinfo' в 'chat'
-                                        chatDiv.appendChild(chatInfoDiv);
-
-                                        // Добавление 'chat' в контейнер чатов
-                                        scrollboxInner.appendChild(chatDiv);
-                                           
-   
-                                            // setTimeout(() => {console.log("on")}, 5)
-
-
-                                        // обработка нажатия
-                                        chatDiv.addEventListener('click', () => {
-                                         
-                                            
-                                            const elements = document.querySelectorAll('.message');
-                                                elements.forEach(element => {
-                                                element.remove();
-                                            });
-                                            document.querySelector('.messanger-block').style.display = "flex"
-
-                                            // for(const q in )
-                                            
-                                            getMessage(chat_name, chat_id)    
-
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                        
-                    })
-
-        const getMessage = (chat_name, chat_id) => {
-
-
-            btnicon.onclick = function() {
-                const send_mess_url = `http://127.0.0.1:5000/send_message?account_name=${chat_name}&chat_id=${chat_id}&message=${textarea.value}`
-                axios.post(send_mess_url)
-                .then((response) => {
-                    console.log(response.data)
-                }).catch((err) => {
-                    console.log(err)
-                })
-                document.getElementById('inputText').value = '';
+                console.log('[close] Connection died');
             }
+        };
 
-            getMessageNow(chat_name, chat_id)
+        socket.onerror = function(error) {
+            console.log(`[error]`);
+        };
 
-            // setInterval(() => {
-            //     const elements = document.querySelectorAll('.message');
-            //     elements.forEach(element => {
-            //         element.remove();
-            //     });
-            //     // getMessageNow(chat_name, chat_id)
-            // }, 3);
-        }
-
-
-        const getMessageNow = (chat_name, chat_id) => {
-
-            const get_message_data = `?account_name=${chat_name}&chat_id=${chat_id}`
-                axios.post(`${url}/get_messages${get_message_data}`)
-                .then(response => {
-                textInputItems.style.display = "flex"
-                const res = response.data    
-                for (const i in res) {
-                    const data_msg = res[i]
-                    const {content, created, direction, is_read} = data_msg
-           
-                    var check = "["
-                    
-                    if (content.startsWith(check)) {
-                        console.warn(`Blocking the system message Avito:\n`,  content )
-                    } else {
-                        const messageDiv = document.createElement('div')
-                        messageDiv.classList.add('message')
-                        messengerMain.appendChild(messageDiv)
-                        messageDiv.textContent = content
-
-                        // const checkDiv = document.createElement('div')
-                        // checkDiv.classList.add('check')
-                        // checkDiv.innerHTML = '&#10003;&#10003;'
-                        // messageDiv.appendChild(checkDiv)
-                        // checkDiv.style.display = 'none'
-
-
-                        if (direction == "in") {
-                            messageDiv.classList.add('__other')
-                        } else if (direction == "out") {    
-                            messageDiv.classList.add('__me')
-                            // if (is_read) {
-                            //     checkDiv.style.display = 'block'
-                            // } else {
-                            //     checkDiv.style.display = 'none'
-                            // }
-                        }
-                    }
-                }
-
-            })
-            .catch((err) => {
-                alert(err)
-                textInputItems.style.display = "none"
-            })
-
-
-        }
+                   
 
 
     </script>

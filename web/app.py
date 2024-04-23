@@ -83,10 +83,12 @@ async def web_socket(ws: WebSocket):
 async def endless_ws(ws: WebSocket):
     await ws.accept()
     while True:
-        await ws.send('Some data From WS')
-        time.sleep(2)
+        print("Отправленно сообщение")
+        await ws.send_text('Some data From WS 2')
+        time.sleep(5)
+  
 
-
+    # await ws.close()
 
 @app.get('/chats', response_class=fastapi.responses.HTMLResponse)
 @app.post('/chats', response_class=fastapi.responses.HTMLResponse)
