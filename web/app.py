@@ -1,12 +1,14 @@
 import time
 
 import fastapi
-from fastapi import WebSocket
+from fastapi import WebSocket, Depends
 from fastapi.responses import HTMLResponse, Response
 
 from avito.account import Account, AccountList
 
-from main import get_password as PW
+from auth.users import fastapi_users, auth_backend, User, current_active_user
+from auth.schemas import UserRead, UserCreate, UserUpdate
+
 import uvicorn
 
 
@@ -41,20 +43,6 @@ class Manager:
                 await con.send_text(message)
             except Exception:
                 pass
-
-
-# def check_cookies(f):
-#     """
-#         Декоратор, который проверяет актуальность пароля пользователя, которые хранится в cookie
-#         В случае его неактуальности, перенаправвляет на страницу login
-#     """
-#     @wraps(f)
-#     def decorated_func(*args, **kwargs):
-#         if request.cookies.get('password') == get_password():
-#             return f(*args, **kwargs)
-#         else:
-#             return redirect(url_for('login'))
-#     return decorated_func
 
 
 manager = Manager()
@@ -130,5 +118,35 @@ async def get_messages():
     except Exception:
         pass
 
+
+app.include_router(
+    fastapi_users.get_auth_router(auth_backend), prefix='auth/', tags=['auth'],
+)
+
+
+app.include_router(
+    fastapi_users.get_register_router(UserRead, UserCreate), prefix='register/', tags=['register'],
+)
+
+app.include_router(
+    fastapi_users.get_reset_password_router(), prefix='/auth', tags=['users']
+)
+
+app.include_router(
+    fastapi_users.get_verify_router(UserRead),
+    prefix="/users",
+    tags=["users"],
+)
+
+app.include_router(
+    fastapi_users.get_users_router(UserRead, UserUpdate),
+    prefix="/users",
+    tags=["users"],
+)
+
+
+@app.get("/authenticated-route")
+async def authenticated_route(user: User = Depends(current_active_user)):
+    return {"message": f"Hello {user.email}!"}
 
 uvicorn.run(app, host='127.0.0.1', port=5000)
