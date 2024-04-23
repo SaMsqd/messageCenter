@@ -122,12 +122,12 @@ async def get_messages():
 
 
 app.include_router(
-    fastapi_users.get_auth_router(auth_backend), prefix='auth/', tags=['auth'],
+    fastapi_users.get_auth_router(auth_backend), prefix='/auth', tags=['auth'],
 )
 
 
 app.include_router(
-    fastapi_users.get_register_router(UserRead, UserCreate), prefix='register/', tags=['register'],
+    fastapi_users.get_register_router(UserRead, UserCreate), prefix='/register', tags=['register'],
 )
 
 app.include_router(

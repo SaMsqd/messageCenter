@@ -1,25 +1,48 @@
 from typing import AsyncGenerator
 
 from fastapi import Depends
-from fastapi_users.db import SQLAlchemyBaseUserTableUUID, SQLAlchemyUserDatabase
+from fastapi_users.db import SQLAlchemyBaseUserTable, SQLAlchemyUserDatabase
+
+from sqlalchemy import Column, String, Boolean, Integer
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
-from dotenv import load_dotenv
+import asyncio
 
 import os
-
-
-load_dotenv()
 
 
 class Base(DeclarativeBase):
     pass
 
 
-class User(SQLAlchemyBaseUserTableUUID, Base):
-    pass
+class User(SQLAlchemyBaseUserTable[int], Base):
+    id = Column(Integer, primary_key=True)
+    email: Mapped[str] = mapped_column(
+        String(length=320), unique=True, index=True, nullable=False
+    )
+    hashed_password: Mapped[str] = mapped_column(
+        String(length=1024), nullable=False
+    )
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    is_superuser: Mapped[bool] = mapped_column(
+        Boolean, default=False, nullable=False
+    )
+    is_verified: Mapped[bool] = mapped_column(
+        Boolean, default=False, nullable=False
+    )
+
+
+class AvitoAccounts(Base):
+    __tablename__ = 'avitoAccount'
+
+    account_id = Column(Integer, primary_key=True, unique=True, autoincrement=True)  # В нашем сервисе
+    user_id = Column(Integer)  # В нашем сервисе
+
+    profile_id = Column(String)
+    client_id = Column(String)
+    client_secret = Column(String)
 
 
 engine = create_async_engine(url=os.getenv('DATABASE_URL'))
@@ -31,6 +54,12 @@ async def create_db_and_tables():
         await conn.run_sync(Base.metadata.create_all)
 
 
+async def recreate_db_and_tables():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
+
+
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
         yield session
@@ -38,3 +67,7 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
 
 async def get_user_db(session: AsyncSession = Depends(get_async_session)):
     yield SQLAlchemyUserDatabase(session, User)
+
+
+if __name__ == '__main__':
+    asyncio.run(recreate_db_and_tables())
