@@ -43,10 +43,13 @@ class AvitoAccounts(Base):
     profile_id = Column(String)
     client_id = Column(String)
     client_secret = Column(String)
+    account_name = Column(String)
 
 
 engine = create_async_engine(url=os.getenv('DATABASE_URL'))
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
+
+session = async_sessionmaker(engine, expire_on_commit=False)
 
 
 async def create_db_and_tables():
