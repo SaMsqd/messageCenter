@@ -3,6 +3,7 @@ import time
 
 import fastapi
 from fastapi import WebSocket, Depends
+from fastapi.middleware.cors import CORSMiddleware
 
 from avito.account import Account, AccountList
 
@@ -13,6 +14,14 @@ import uvicorn
 
 
 app = fastapi.FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Здесь можно указать разрешенные источники (origins)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 accounts = AccountList()
 
 accounts.add(Account(profile_id=159470220,

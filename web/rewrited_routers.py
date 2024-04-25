@@ -209,7 +209,6 @@ def get_register_router(
             user_create: user_create_schema,  # type: ignore
             user_manager: BaseUserManager[models.UP, models.ID] = Depends(get_user_manager),
     ):
-        return Response(status_code=201, headers={'Access-Control-Allow-Origin': '*'})
         try:
             created_user = await user_manager.create(
                 user_create, safe=True, request=request
@@ -228,7 +227,7 @@ def get_register_router(
                 },
             )
 
-        return Response(status_code=201, headers={'Access-Control-Allow-Origin': '*'})
+        return schemas.model_validate(user_schema, created_user)
 
     return router
 
