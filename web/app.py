@@ -3,7 +3,6 @@ import time
 
 import fastapi
 from fastapi import WebSocket, Depends
-from fastapi.responses import HTMLResponse, Response
 
 from avito.account import Account, AccountList
 
@@ -110,9 +109,9 @@ app.include_router(
     fastapi_users.get_register_router(UserRead, UserCreate), prefix='/auth', tags=['register'],
 )
 
-app.include_router(
-    fastapi_users.get_reset_password_router(), prefix='/auth', tags=['auth']
-)
+# app.include_router(
+#     fastapi_users.get_reset_password_router(), prefix='/auth', tags=['auth']
+# )
 
 app.include_router(
     fastapi_users.get_verify_router(UserRead),
@@ -120,15 +119,16 @@ app.include_router(
     tags=["users"],
 )
 
-app.include_router(
-    fastapi_users.get_users_router(UserRead, UserUpdate),
-    prefix="/users",
-    tags=["users"],
-)
+# app.include_router(
+#     fastapi_users.get_users_router(UserRead, UserUpdate),
+#     prefix="/users",
+#     tags=["users"],
+# )
 
 
 @app.get("/authenticated-route", tags=['test_auth'])
 async def authenticated_route(user: User = Depends(current_active_user)):
     return {"message": f"Hello {user.email}!"}
+
 
 uvicorn.run(app, host=os.getenv('HOST'), port=int(os.getenv('PORT')))
