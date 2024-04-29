@@ -5,12 +5,20 @@ import fastapi
 from fastapi import WebSocket, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
+import fastapi_users
+
 from avito.account import Account, AccountList
 
-from auth.users import fastapi_users, auth_backend, User, current_active_user
+from auth.users import fastapi_users, auth_backend, User
 from auth.schemas import UserRead, UserCreate, UserUpdate
 
 import uvicorn
+
+from web.schemas import AccountSchema
+
+
+from database.main import session
+from database import database_methods
 
 
 app = fastapi.FastAPI()
@@ -55,6 +63,7 @@ class Manager:
 
 
 manager = Manager()
+
 
 
 def return_html(file_name, headers: dict = None):
@@ -107,6 +116,15 @@ async def ws_send_messages():
         await manager.broadcast('Test')
     except Exception:
         pass
+
+
+current_active_user = fastapi_users.current_user()
+
+
+@app.post('/add_account', tags=['avito_accounts'])
+async def add_account(account: AccountSchema, user: User = Depends(current_active_user)):
+    acc = Account(account.profile_id, account.client_id, account.client_secret, None, account.account_name)
+    await database_methods.register_account(acc, session, user)
 
 
 app.include_router(

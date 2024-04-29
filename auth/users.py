@@ -11,7 +11,7 @@ from fastapi_users.authentication import (
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
 
-from web.rewrited_routers import RewritedFastAPIUsers as FastAPIUsers
+from fastapi_users import FastAPIUsers
 
 from database import User, get_user_db
 

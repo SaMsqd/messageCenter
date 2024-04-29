@@ -8,6 +8,8 @@ from avito.account import Account
 
 from auth.users import current_active_user
 
+from fastapi import Depends
+
 
 async def account_to_avitoaccount_db(acc: Account, user: User):
     return AvitoAccounts(
@@ -19,7 +21,7 @@ async def account_to_avitoaccount_db(acc: Account, user: User):
     )
 
 
-async def register_account(acc: Account, async_session: async_sessionmaker[AsyncSession], user: User = Depends(current_active_user)):
+async def register_account(acc: Account, async_session: async_sessionmaker[AsyncSession], user: User):
     async with async_session() as session:
         acc = await account_to_avitoaccount_db(acc, user)
         session.add(acc)
