@@ -14,7 +14,7 @@ from auth.schemas import UserRead, UserCreate, UserUpdate
 
 import uvicorn
 
-from web.schemas import AccountSchema
+from schemas import AccountSchema
 
 
 from database.main import session
