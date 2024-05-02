@@ -7,10 +7,11 @@ class ProxyException(BaseException):
         self.message = message
 
 
-class Account:
+class AvitoAccountHandler:
     """
     Класс, через который будет осуществляться работа с api + взаимодействие с сервером
     """
+
     def __init__(self, profile_id, client_id, client_secret, proxy, name):
         self._api = avito_api.AvitoApi(profile_id, client_id, client_secret, proxy)
         self.name = name
@@ -31,7 +32,7 @@ class AccountList:
     def __init__(self):
         self.accounts = list()
 
-    def add(self, account: Account):
+    def add(self, account: AvitoAccountHandler):
         self.accounts.append(account)
 
     def send_message(self, account_name, chat_id, message):
@@ -44,7 +45,13 @@ class AccountList:
         for account in self.accounts:
             chats = []
             for chat in account.api.chats_queue:
-                chats.append({chat['id']: chat['context']['value']['title']})
+                last_message = account.api.get_last_message(chat['id'])
+                chats.append({chat['id']:
+                    {
+                        'title': chat['context']['value']['title'],
+                        'last_message': last_message['messages']
+                    }
+                })
             res.append({account.name: chats})
         return res
 
