@@ -8,6 +8,8 @@ from app.schemas import UserCreate, UserRead, UserUpdate
 from app.users import auth_backend, current_active_user, fastapi_users
 from app.routers import avito_chats, avito_accounts
 
+import uvicorn
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -61,3 +63,6 @@ app.include_router(
     prefix='/avito_chats',
     tags=['avito_chats']
 )
+
+
+uvicorn.run(app, host='0.0.0.0', port=10000)
