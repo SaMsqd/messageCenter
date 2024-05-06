@@ -49,7 +49,7 @@ class AccountList:
                 chats.append({chat['id']:
                     {
                         'title': chat['context']['value']['title'],
-                        'last_message': last_message['messages']
+                        'last_message': last_message['messages'][0]
                     }
                 })
             res.append({account.name: chats})
