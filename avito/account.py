@@ -46,8 +46,8 @@ class AccountList:
             chats = []
             for chat in account.api.chats_queue:
                 last_message = account.api.get_last_message(chat['id'])
-                chats.append({chat['id']:
-                    {
+                chats.append(
+                    {chat['id']: {
                         'title': chat['context']['value']['title'],
                         'last_message': last_message['messages'][0]
                     }

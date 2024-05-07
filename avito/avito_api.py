@@ -46,7 +46,7 @@ class AvitoApi:
         res = json.loads(
             requests.get(
                 f'https://api.avito.ru/messenger/v2/accounts/{self.profile_id}/chats',
-                    headers=self.headers, params={'limit': 100, 'chat_types': 'u2u,u2i'}).content.decode()
+                    headers=self.headers, params={'limit': 10, 'chat_types': 'u2u,u2i'}).content.decode()
         )
         self.chats_queue = res['chats']
 
