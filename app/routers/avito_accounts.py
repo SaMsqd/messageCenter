@@ -14,7 +14,7 @@ router = APIRouter()
 async def account_db(account: AccountReceive, user: User = Depends(current_active_user)):
     try:
         await register_account(account, user)
-        return Response(status_code=200, content=f'Аккаунт успешно добавлен в базу данных для юзера {user.id}')
+        return Response(status_code=200, content={'detail': f'Аккаунт успешно добавлен в базу данных для юзера {user.id}'})
     except KeyError:
         raise HTTPException(status_code=432, detail='Ошибка при попытке получить токен доступа, возможно была допущена ошибка'
                                                     ' в данных аккаунта. Операция не выполнена')
