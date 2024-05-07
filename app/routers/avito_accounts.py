@@ -5,6 +5,8 @@ from app.db import User, register_account, delete_account
 from app.users import current_active_user
 from app.schemas import AccountReceive
 
+from sqlalchemy.exc import IntegrityError
+
 
 router = APIRouter()
 
@@ -18,6 +20,8 @@ async def account_db(account: AccountReceive, user: User = Depends(current_activ
     except KeyError:
         raise HTTPException(status_code=432, detail='Ошибка при попытке получить токен доступа, возможно была допущена ошибка'
                                                     ' в данных аккаунта. Операция не выполнена')
+    except IntegrityError:
+        raise HTTPException(status_code=409, detail='Аккаунт уже существует')
 
 
 @router.delete('/delete_account',
