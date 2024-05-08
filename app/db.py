@@ -6,11 +6,13 @@ from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import String, Boolean, Integer, Column
+from sqlalchemy import String, Boolean, Integer, Column, TIMESTAMP, func
 from sqlalchemy.future import select
 
 from app.schemas import AccountReceive
 from avito.account import AvitoAccountHandler, AccountList
+
+from fastapi import HTTPException
 
 DATABASE_URL = "postgresql+asyncpg://postgresql_vqa7_user:w2rJHucU7Mz5qOFeDC5pDYUIYMYIFShb@dpg-cojan7qcn0vc73drtp6g-a.oregon-postgres.render.com/postgresql_vqa7"
 
@@ -28,6 +30,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     email: Mapped[str] = mapped_column(
         String(length=320), unique=True, index=True, nullable=False
     )
+    time_of_registration = Column(TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp())
     hashed_password: Mapped[str] = mapped_column(
         String(length=1024), nullable=False
     )
@@ -63,13 +66,28 @@ class avitoChats(Base):
     deleted = Column(Boolean, default=False)
 
 
+class Hints(Base):
+    __tablename__ = 'hints'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer)
+    account_name = Column(String)
+
+    hint = Column(String)
+
+
 engine = create_async_engine(DATABASE_URL)
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
 
-async def create_db_and_tables():
+async def recreate_db_and_tables():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
+
+
+async def create_db_and_tables():
+    async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
 
@@ -110,7 +128,7 @@ async def register_account(acc: AccountReceive, user: User):
         await session.commit()
 
 
-async def delete_account(acc: AccountReceive, user):
+async def delete_account(acc: AccountReceive, user: User):
     async for session in get_async_session():
         res = await session.execute(select(avitoAccount).where(avitoAccount.profile_id == acc.profile_id,
                                                                avitoAccount.user_id == user.id))
@@ -119,7 +137,24 @@ async def delete_account(acc: AccountReceive, user):
             await session.delete(avito_account)
             await session.commit()
         else:
-            return {'status_code': 404, 'detail': 'Аккаунт не найден'}
+            raise HTTPException(status_code=404, detail='Аккаунт не найден')
+
+
+async def get_accounts(user: User):
+    async for session in get_async_session():
+        res = await session.execute(select(avitoAccount).where(avitoAccount.user_id == user.id))
+        avito_accounts = res.scalars()
+        res = {}
+        if avito_accounts:
+            for avito_account in avito_accounts:
+                res[avito_account.account_name] = {
+                    'profile_id': avito_account.profile_id,
+                    'client_id': avito_account.client_id,
+                    'client_secret': avito_account.client_secret
+                }
+        else:
+            raise HTTPException(status_code=404, detail='К этому аккаунту не привязан ни один авито')
+        return res
 
 
 async def avitoaccount_db_to_avitoaccounthandler(avito_account: avitoAccount) -> AvitoAccountHandler:
@@ -169,3 +204,39 @@ async def get_all_chats(user_id):
                         await remember_chat(chat_id, account_name, user_id)       # Сделать функцию добавления чата
 
         return chats
+
+
+async def check_hint_unique(hint: str, account_name: str, user_id: int):
+    async for session in get_async_session():
+        res = await session.execute(select(Hints).where(Hints.hint == hint,
+                                                        Hints.account_name == account_name,
+                                                        Hints.user_id == user_id))
+        if res.scalar() is not None:
+            raise HTTPException(status_code=409, detail='Такая подсказка уже есть')
+
+
+async def add_hints(account_name: str, hint: str, user: User):
+    async for session in get_async_session():
+        res = await session.execute(select(avitoAccount).where(avitoAccount.account_name == account_name,
+                                                              avitoAccount.user_id == user.id))
+        account = res.scalar()
+        if account:
+            await check_hint_unique(hint, account_name, user.id)
+            hints = Hints(account_name=account.account_name, hint=hint, user_id=user.id)
+            session.add(hints)
+            await session.commit()
+        else:
+            raise HTTPException(status_code=404, detail='Аккаунт не найден')
+
+
+async def get_hints(account_name: str, user: User):
+    async for session in get_async_session():
+        res = await session.execute(select(Hints).where(Hints.account_name == account_name,
+                                                        Hints.user_id == user.id))
+        hints = res.scalars()
+        res = {'hints': []}
+        for hint in hints:
+            res['hints'].append(hint.hint)
+        if res['hints'] == []:
+            raise HTTPException(status_code=404, detail='К этому аккаунту авито не добавлено подсказок')
+        return res
