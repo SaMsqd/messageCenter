@@ -77,7 +77,7 @@ app.include_router(
 async def endless_ws(ws: WebSocket):
     await ws.accept()
     for i in range(9999):
-        await ws.send(str(i))
+        await ws.send_text(i)
         time.sleep(5)
 
 
