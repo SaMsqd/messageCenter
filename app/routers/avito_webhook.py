@@ -21,3 +21,8 @@ def web_hook_accept(user_id: int, web_hook_data: WebHookReceive):
 @router.websocket('/websocket/')
 def connect_websocket(ws: WebSocket):
     ws_manager.connect(ws)
+
+
+@router.websocket('/socket.io/')
+def connect_websocket(ws: WebSocket):
+    ws_manager.connect(ws)
