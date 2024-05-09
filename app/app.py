@@ -1,9 +1,10 @@
+import time
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.database.db import create_db_and_tables
+from app.database.db import create_db_and_tables, recreate_db_and_tables
 from app.schemas import UserCreate, UserRead, UserUpdate
 from app.users import auth_backend, fastapi_users
 from app.routers import avito_chats, avito_accounts, avito_webhook
@@ -70,6 +71,15 @@ app.include_router(
     prefix='/avito_webhook',
     tags=['avito_webhook']
 )
+
+
+@app.websocket('/endless_ws')
+async def endless_ws(ws: WebSocket):
+    await ws.accept()
+    while True:
+        print("Отправленно сообщение")
+        await ws.send_text('Some data From WS 2')
+        time.sleep(5)
 
 
 uvicorn.run(app, host='0.0.0.0', port=10000)
