@@ -19,5 +19,5 @@ def web_hook_accept(user_id: int, web_hook_data: WebHookReceive):
 
 
 @router.websocket('/websocket/')
-def connect_websocket(ws: WebSocket, user: User = Depends(current_active_user)):
-    ws_manager.connect(ws, user.id)
+def connect_websocket(ws: WebSocket):
+    ws_manager.connect(ws)
