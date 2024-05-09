@@ -8,8 +8,8 @@ router = APIRouter()
 
 
 @router.post('/{user_id}/accept')
-def webhook_accept(user_id: int, data: WebHookReceive):
-    ws_manager.broadcast(user_id, data.model_dump())
+async def webhook_accept(user_id: int, data: WebHookReceive):
+    await ws_manager.broadcast(user_id, data.model_dump())
 
 
 @router.websocket("/ws")
