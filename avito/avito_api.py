@@ -100,12 +100,11 @@ class AvitoApi:
         data = json.dumps({
             'url': url
         })
-        response = json.load(
-            requests.post(url='https://api.avito.ru/messenger/v3/webhook',
-                          headers=self.headers,
-                          data=data)
-        )
-        if response['ok'] or response['ok'] == 'true':
+        response = requests.post(url='https://api.avito.ru/messenger/v3/webhook',
+                             headers=self.headers,
+                             data=data)
+
+        if response.status_code == 200:
             print(f'Webhook для аккаунта {self.profile_id} успешно зарегистрирован')
         else:
             print(f'Ошибка регистрации веб-хука для аккаунта {self.profile_id}')

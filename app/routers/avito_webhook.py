@@ -14,15 +14,17 @@ ws_manager = WS_Manager()
 
 
 @router.post('/webhook/{user_id}/accept')
-def web_hook_accept(user_id: int, web_hook_data: WebHookReceive):
+async def web_hook_accept(user_id: int, web_hook_data: WebHookReceive):
     ws_manager.broadcast(user_id, web_hook_data.dict())
 
 
 @router.websocket('/websocket/')
-def connect_websocket(ws: WebSocket):
+async def connect_websocket(ws: WebSocket):
+    await ws.accept()
     ws_manager.connect(ws)
 
 
 @router.websocket('/socket.io/')
-def connect_websocket(ws: WebSocket):
+async def connect_websocket(ws: WebSocket):
+    await ws.accept()
     ws_manager.connect(ws)
