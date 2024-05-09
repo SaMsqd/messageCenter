@@ -76,9 +76,8 @@ app.include_router(
 @app.websocket('/endless_ws')
 async def endless_ws(ws: WebSocket):
     await ws.accept()
-    while True:
-        print("Отправленно сообщение")
-        await ws.send_text('Some data From WS 2')
+    for i in range(9999):
+        await ws.send(str(i))
         time.sleep(5)
 
 
