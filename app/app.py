@@ -77,12 +77,4 @@ app.include_router(
 )
 
 
-@app.websocket('/endless_ws')
-async def endless_ws(ws: WebSocket):
-    await ws.accept()
-    for i in range(9999):
-        await ws.send_text(str(i))
-        time.sleep(5)
-
-
-uvicorn.run(app, host='0.0.0.0', port=10000)
+uvicorn.run(app, host='127.0.0.1', port=8080)

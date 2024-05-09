@@ -22,14 +22,9 @@ class WSManager:
         await websocket.send_text(f'Веб-сокет успешно зарегистрирован!{user_id}')
 
     async def disconnect(self, websocket: WebSocket):
-        try:
-            await websocket.close()
-        except RuntimeError:
-            pass
-        finally:
-            for k, v in self.connections.items():
-                if websocket in v:
-                    self.connections[k].pop(v)
+        for k, v in self.connections.items():
+            if websocket in v:
+                self.connections[k].remove(v)
 
     async def broadcast(self, user_id: int, data: dict):
         print(data)
