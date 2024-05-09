@@ -20,10 +20,10 @@ class WSManager:
             self.connections[user_id] = [websocket]
         await websocket.send_text('Веб-сокет успешно зарегистрирован!')
 
-    def broadcast(self, user_id: int, data: dict):
+    async def broadcast(self, user_id: int, data: dict):
         for socket in self.connections[user_id]:
             try:
-                socket.send_json(json.dumps(data))
+                await socket.send_json(json.dumps(data))
             except RuntimeError:
-                socket.close()
+                await socket.close()
 
