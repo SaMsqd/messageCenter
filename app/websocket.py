@@ -10,9 +10,9 @@ class WSManager:
 
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
-        user_data = await websocket.receive_json()
+        email = await websocket.receive_text()
 
-        user = await db.get_user(user_data['email'])
+        user = await db.get_user(email)
         user_id = user.id
         if self.connections.get(user_id, None):
             self.connections[user_id].append(websocket)

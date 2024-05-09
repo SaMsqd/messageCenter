@@ -1,3 +1,5 @@
+import asyncio
+
 import time
 from contextlib import asynccontextmanager
 
@@ -11,14 +13,14 @@ from app.routers import avito_chats, avito_accounts, avito_webhook
 
 import uvicorn
 
-import asyncio
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Not needed if you setup a migration system like Alembic
     await create_db_and_tables()
     yield
+
+
 
 
 app = FastAPI()
