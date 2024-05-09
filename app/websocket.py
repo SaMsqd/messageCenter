@@ -24,7 +24,7 @@ class WSManager:
     async def broadcast(self, user_id: int, data: dict):
         print(data)
         for socket in self.connections[user_id]:
-            if socket.closed:
-                self.connections[user_id].remove(socket)
-                continue
-            await socket.send_json(json.dumps(data))
+            try:
+                await socket.send_json(json.dumps(data))
+            except:
+                pass
