@@ -12,7 +12,7 @@ class WSManager:
         await websocket.accept()
         user_data = await websocket.receive_json()
 
-        user = await db.get_user(user_data['email'], user_data['password'])
+        user = await db.get_user(user_data['email'])
         user_id = user.id
         if self.connections.get(user_id, None):
             self.connections[user_id].append(websocket)

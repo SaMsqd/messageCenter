@@ -11,6 +11,8 @@ from app.routers import avito_chats, avito_accounts, avito_webhook
 
 import uvicorn
 
+import asyncio
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
