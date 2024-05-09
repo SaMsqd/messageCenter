@@ -21,17 +21,10 @@ class WSManager:
         print(self.connections)
         await websocket.send_text(f'Веб-сокет успешно зарегистрирован!{user_id}')
 
-    async def disconnect(self, websocket: WebSocket):
-        for k, v in self.connections.items():
-            if websocket in v:
-                self.connections[k].remove(v)
-
     async def broadcast(self, user_id: int, data: dict):
         print(data)
         for socket in self.connections[user_id]:
-            try:
-                await socket.send_json(json.dumps(data))
-            except RuntimeError:
-                print('connection_closed!')
-                await self.disconnect(socket)
-
+            if socket.closed:
+                self.connections[user_id].remove(socket)
+                continue
+            await socket.send_json(json.dumps(data))
