@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Response
 
-from app import db
-from app.db import User
+from app.database.methods import chat_methods as db
+from app.database.db import User
 from app.users import current_active_user
 
 

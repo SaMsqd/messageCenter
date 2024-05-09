@@ -1,10 +1,9 @@
-import asyncio
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.db import create_db_and_tables, recreate_db_and_tables
+from app.database.db import create_db_and_tables
 from app.schemas import UserCreate, UserRead, UserUpdate
 from app.users import auth_backend, fastapi_users
 from app.routers import avito_chats, avito_accounts

@@ -1,3 +1,5 @@
+import os
+
 import requests
 import json
 
@@ -99,7 +101,7 @@ class AvitoApi:
             'url': url
         })
         response = json.load(
-            requests.post(url='https://api.avito.ru/messenger/v1/subscriptions',
+            requests.post(url='https://api.avito.ru/messenger/v3/webhook',
                           headers=self.headers,
                           data=data)
         )
