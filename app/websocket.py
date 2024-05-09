@@ -22,9 +22,5 @@ class WSManager:
         await websocket.send_text(f'Веб-сокет успешно зарегистрирован!{user_id}')
 
     async def broadcast(self, user_id: int, data: dict):
-        print(data)
         for socket in self.connections[user_id]:
-            try:
-                await socket.send_json(json.dumps(data))
-            except:
-                pass
+            await socket.send_json(json.dumps(data))
