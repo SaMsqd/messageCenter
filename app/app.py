@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database.db import create_db_and_tables
 from app.schemas import UserCreate, UserRead, UserUpdate
 from app.users import auth_backend, fastapi_users
-from app.routers import avito_chats, avito_accounts
+from app.routers import avito_chats, avito_accounts, avito_webhook
 
 import uvicorn
 
@@ -63,6 +63,12 @@ app.include_router(
     avito_chats.router,
     prefix='/avito_chats',
     tags=['avito_chats']
+)
+
+app.include_router(
+    avito_webhook.router,
+    prefix='/avito_webhook',
+    tags=['avito_webhook']
 )
 
 
