@@ -1,21 +1,29 @@
 import json
 
 from fastapi import WebSocket
+from app.database.methods import user_methods as db
 
 
-class WS_Manager:
+class WSManager:
     def __init__(self):
-        self.connections = []
-        #self.connections = {}   # Тут будут хранится все подключенные клиенты в виде {user_id: socket}
+        self.connections = {}   # Тут будут хранится все подключенные клиенты в виде {user_id: [socket]}
 
-    def connect(self, websocket: WebSocket):
-        self.connections.append(websocket)
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        user_data = await websocket.receive_json()
 
-    def disconnect(self, user_id: int):
-        self.connections.pop(user_id)
+        user = await db.get_user(user_data['email'], user_data['password'])
+        user_id = user.id
+        if self.connections.get(user_id, None):
+            self.connections[user_id].append(websocket)
+        else:
+            self.connections[user_id] = [websocket]
+        await websocket.send_text('Веб-сокет успешно зарегистрирован!')
 
     def broadcast(self, user_id: int, data: dict):
-        # for socket in self.connections[user_id]:
-        #     socket.send_json(data)
-        for socket in self.connections:
-            socket.send_json(json.dumps(data))
+        for socket in self.connections[user_id]:
+            try:
+                socket.send_json(json.dumps(data))
+            except RuntimeError:
+                socket.close()
+
