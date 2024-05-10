@@ -1,3 +1,4 @@
+import json
 import os
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -21,8 +22,8 @@ async def register_account(account: AccountReceive, user: User = Depends(current
         account_handler = await db.account_receive_to_handler(account)
         account_handler.api.register_webhook(os.getenv('URL')+'avito_webhook/'+str(user.id)+'/accept')
         await db.register_account(account, user)
-        return Response(status_code=200, content={'detail': f'Аккаунт успешно добавлен в базу данных для юзера '
-                                                            f'{user.id}. Webhook зарегистрирован успешно'})
+        return Response(status_code=200, content=json.dumps({'detail': f'Аккаунт успешно добавлен в базу данных для юзера '
+                                                            f'{user.id}. Webhook зарегистрирован успешно'}))
 
     except KeyError:
         raise HTTPException(status_code=432, detail='Ошибка при попытке получить токен доступа, возможно была допущена ошибка'
