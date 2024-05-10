@@ -23,4 +23,4 @@ class WSManager:
 
     async def broadcast(self, user_id: int, data: dict):
         for socket in self.connections[user_id]:
-            await socket.send_json(json.dumps(data))
+            await socket.send_text(json.dumps(data))
