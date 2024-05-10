@@ -109,7 +109,19 @@ class AvitoApi:
         else:
             print(f'Ошибка регистрации веб-хука для аккаунта {self.profile_id}')
 
+    def unregister_webhook(self, url: str):
+        data = json.dumps({
+            'url': url
+        })
+        response = requests.post(url='https://api.avito.ru/messenger/v3/webhook',
+                                 headers=self.headers,
+                                 data=data)
+        if response.status_code == 200:
+            print(f'Webhook для аккаунта {self.profile_id} успешно удалён')
+        else:
+            print(f'Ошибка удаления веб-хука для аккаунта {self.profile_id}')
+
 
 if __name__ == '__main__':
     api = AvitoApi(159470220, 'Pm4BmvaY4LPFHQ6Oo_Hu', 'qBO1H1ssvcfotR15Nw1Qpxrs_1yG9vyhWb9tbgj5')
-    api.register_webhook('https://messagecenter-9p86.onrender.com/avito_webhook/1/accept')
+    api.unregister_webhook('https://messagecenter-9p86.onrender.com/avito_webhook/2/accept')
