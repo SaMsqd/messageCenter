@@ -1,6 +1,6 @@
 from typing import Any
 
-from fastapi import APIRouter, WebSocket
+from fastapi import APIRouter, WebSocket, Request
 
 from app.websocket import WSManager
 #from app.schemas import WebHookReceive
@@ -10,8 +10,10 @@ router = APIRouter()
 
 
 @router.post('/{user_id}/accept')
-async def webhook_accept(user_id: int, data: Any):
-    await ws_manager.broadcast(user_id, data.model_dump())
+async def webhook_accept(user_id: int, request: Request):
+    data = await request.json()
+    print(data)
+    await ws_manager.broadcast(user_id, data)
 
 
 @router.websocket("/ws")
