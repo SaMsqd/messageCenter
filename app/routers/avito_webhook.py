@@ -1,14 +1,16 @@
+from typing import Any
+
 from fastapi import APIRouter, WebSocket
 
 from app.websocket import WSManager
-from app.schemas import WebHookReceive
+#from app.schemas import WebHookReceive
 
 
 router = APIRouter()
 
 
 @router.post('/{user_id}/accept')
-async def webhook_accept(user_id: int, data: WebHookReceive):
+async def webhook_accept(user_id: int, data: Any):
     await ws_manager.broadcast(user_id, data.model_dump())
 
 
