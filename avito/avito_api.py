@@ -112,4 +112,4 @@ class AvitoApi:
 
 if __name__ == '__main__':
     api = AvitoApi(159470220, 'Pm4BmvaY4LPFHQ6Oo_Hu', 'qBO1H1ssvcfotR15Nw1Qpxrs_1yG9vyhWb9tbgj5')
-    api.register_webhook('https://messagecenter-9p86.onrender.com/avito_webhook/2/accept')
+    api.register_webhook('https://messagecenter-9p86.onrender.com/avito_webhook/1/accept')

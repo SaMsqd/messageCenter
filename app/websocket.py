@@ -23,4 +23,7 @@ class WSManager:
     async def broadcast(self, user_id: int, data: dict):
         print(data)
         for socket in self.connections[user_id]:
-            await socket.send_text(json.dumps(data))
+            try:
+                await socket.send_text(json.dumps(data))
+            except RuntimeError:
+                self.connections[user_id].remove(socket)
