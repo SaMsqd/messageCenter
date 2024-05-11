@@ -1,12 +1,13 @@
 from app.database.database_schemas import User, avitoAccount, avitoChats, Hints
 from app.database.db import get_async_session
+from app.database.methods.account_methods import get_account
 
 from sqlalchemy.future import select
 
 from fastapi import HTTPException
 
 from app.database.methods.account_methods import avitoaccount_db_to_avitoaccounthandler
-from avito.account import AccountList
+from avito.account import AccountList, AvitoAccountHandler
 
 
 async def remember_chat(chat_id, account_name, user_id):
@@ -82,3 +83,33 @@ async def get_hints(account_name: str, user: User):
         if res['hints'] == []:
             raise HTTPException(status_code=404, detail='К этому аккаунту авито не добавлено подсказок')
         return res
+
+
+async def set_color(chat_id: str, color: str, user: User):
+    async for session in get_async_session():
+        res = await session.execute(select(avitoChats).where(avitoChats.chat_id == chat_id,
+                                                              avitoChats.user_id == user.id))
+        chat = res.scalar()
+        if chat:
+            chat.color = color
+            await session.commit()
+        else:
+            raise HTTPException(status_code=404, detail='Чат не найден')
+
+
+async def delete_chat(chat_id: str, user: User):
+    async for session in get_async_session():
+        res = await session.execute(select(avitoChats).where(avitoChats.chat_id == chat_id,
+                                                              avitoChats.user_id == user.id))
+        chat = res.scalar()
+        if chat:
+            chat.deleted = True
+            await session.commit()
+        else:
+            raise HTTPException(status_code=404, detail='Чат не найден')
+
+
+async def get_chat(chat_id: str, account_name, user: User):
+    async for session in get_async_session():
+        account: AvitoAccountHandler = await get_account(account_name, user)
+        return account.api.get_chat(chat_id)

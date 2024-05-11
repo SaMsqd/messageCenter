@@ -74,3 +74,14 @@ async def avitoaccount_db_to_avitoaccounthandler(avito_account: avitoAccount) ->
         proxy=None,
         name=avito_account.account_name
     )
+
+
+async def get_account(account_name: str, user: User) -> AvitoAccountHandler:
+    async for session in get_async_session():
+        res = await session.execute(select(avitoAccount).where(avitoAccount.account_name == account_name,
+                                                              avitoAccount.user_id == user.id))
+        account = res.scalar()
+        if account:
+            return await avitoaccount_db_to_avitoaccounthandler(account)
+        else:
+            raise HTTPException(status_code=404, detail='Аккаунт не найден')
