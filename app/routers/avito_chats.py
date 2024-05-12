@@ -40,3 +40,9 @@ async def delete_chat(chat_id: str, user: User = Depends(current_active_user)):
 @router.post('/get_chat', description='Получить список всех сообщений в чате')
 async def get_chat(chat_id: str, account_name: str, user: User = Depends(current_active_user)):
     return await db.get_chat(chat_id, account_name, user)
+
+
+@router.post('/send_message', description='Отправить сообщение в чат')
+async def send_message(chat_id: str, account_name: str, message: str, user: User = Depends(current_active_user)):
+    account: AvitoAccountHandler = await db.get_account(account_name, user)
+    return account.api.send_message(chat_id, message)
