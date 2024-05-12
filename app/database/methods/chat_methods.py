@@ -107,9 +107,3 @@ async def delete_chat(chat_id: str, user: User):
             await session.commit()
         else:
             raise HTTPException(status_code=404, detail='Чат не найден')
-
-
-async def get_chat(chat_id: str, account_name, user: User):
-    async for session in get_async_session():
-        account: AvitoAccountHandler = await get_account(account_name, user)
-        return account.api.get_chat(chat_id)
