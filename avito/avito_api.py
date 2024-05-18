@@ -58,7 +58,7 @@ class AvitoApi:
         :param int chat_id:
         :return:
         """
-        headers = self.headers | {'accept': 'application/json'}
+        headers = {**self.headers, **{'accept': 'application/json'}}
         res = json.loads(requests.get(
                 f'https://api.avito.ru/messenger/v3/accounts/{self.profile_id}/chats/{chat_id}/messages',
                 headers=headers
@@ -66,7 +66,7 @@ class AvitoApi:
         return res
 
     def get_last_message(self, chat_id):
-        headers = self.headers | {'accept': 'application/json'}
+        headers = {**self.headers, **{'accept': 'application/json'}}
         res = json.loads(requests.get(
                 f'https://api.avito.ru/messenger/v3/accounts/{self.profile_id}/chats/{chat_id}/messages',
                 headers=headers, params={'limit': 1}
@@ -80,7 +80,7 @@ class AvitoApi:
         :param str text: сообщение для отправки
         :return:
         """
-        headers = self.headers | {'accept': 'application/json', 'Content-Type': 'application/json'}
+        headers = {**self.headers, **{'accept': 'application/json', 'Content-Type': 'application/json'}}
         data = json.dumps({
             'message': {
                 'text': text
@@ -124,4 +124,3 @@ class AvitoApi:
 
 if __name__ == '__main__':
     api = AvitoApi(159470220, 'Pm4BmvaY4LPFHQ6Oo_Hu', 'qBO1H1ssvcfotR15Nw1Qpxrs_1yG9vyhWb9tbgj5')
-    api.unregister_webhook('https://messagecenter-9p86.onrender.com/avito_webhook/2/accept')

@@ -52,6 +52,10 @@ class avitoChats(Base):
     color = Column(String, default=None)
     deleted = Column(Boolean, default=False)
 
+    client_name: Mapped[str] = mapped_column(
+        String(length=320), default=None
+    )
+
 
 class Hints(Base):
     __tablename__ = 'hints'

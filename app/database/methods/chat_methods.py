@@ -10,12 +10,12 @@ from app.database.methods.account_methods import avitoaccount_db_to_avitoaccount
 from avito.account import AccountList, AvitoAccountHandler
 
 
-async def remember_chat(chat_id, account_name, user_id):
+async def remember_chat(client_name: str, chat_id: str, account_name: str, user_id: int ):
     async for session in get_async_session():
         account = await session.execute(select(avitoAccount).where(avitoAccount.account_name == account_name,
                                                                   avitoAccount.user_id == user_id))
         account_id = account.scalar()
-        chat = avitoChats(chat_id=chat_id, account_id=account_id.account_id, user_id=user_id)
+        chat = avitoChats(client_name=client_name, chat_id=chat_id, account_id=account_id.account_id, user_id=user_id)
         session.add(chat)
         await session.commit()
 
@@ -43,8 +43,9 @@ async def get_all_chats(user_id):
                     if chat_id in [db_chat.chat_id for db_chat in db_chats]:
                         data['color'] = [db_chat.color for db_chat in db_chats if db_chat.chat_id == chat_id][0]
                         data['deleted'] = [db_chat.deleted for db_chat in db_chats if db_chat.chat_id == chat_id][0]
+                        data['client_name'] = [db_chat.client_name for db_chat in db_chats if db_chat.chat_id == chat_id][0]
                     else:
-                        await remember_chat(chat_id, account_name, user_id)       # Сделать функцию добавления чата
+                        await remember_chat(data['client_name'], chat_id, account_name, user_id)
 
         return chats
 
@@ -85,25 +86,38 @@ async def get_hints(account_name: str, user: User):
         return res
 
 
-async def set_color(chat_id: str, color: str, user: User):
+async def set_colors(chats_id: list, color: str, user: User):
+    exceptions = []
     async for session in get_async_session():
-        res = await session.execute(select(avitoChats).where(avitoChats.chat_id == chat_id,
-                                                              avitoChats.user_id == user.id))
-        chat = res.scalar()
-        if chat:
-            chat.color = color
-            await session.commit()
-        else:
-            raise HTTPException(status_code=404, detail='Чат не найден')
+        for chat_id in chats_id:
+            res = await session.execute(select(avitoChats).where(avitoChats.chat_id == chat_id,
+                                                                  avitoChats.user_id == user.id))
+            chat = res.scalar()
+            if chat:
+                chat.color = color
+                await session.commit()
+            else:
+                exceptions.append(chat_id)
+    if exceptions:
+        raise HTTPException(status_code=404, detail=f'Чат(ы) не найдены: {exceptions}')
 
 
-async def delete_chat(chat_id: str, user: User):
+async def get_chat(chat_id: str, account_name, user: User):
+    account: AvitoAccountHandler = await get_account(account_name, user)
+    return account.api.get_chat(chat_id)
+
+
+async def delete_chats(chats_id: list, user: User):
+    exceptions = []
     async for session in get_async_session():
-        res = await session.execute(select(avitoChats).where(avitoChats.chat_id == chat_id,
-                                                              avitoChats.user_id == user.id))
-        chat = res.scalar()
-        if chat:
-            chat.deleted = True
-            await session.commit()
-        else:
-            raise HTTPException(status_code=404, detail='Чат не найден')
+        for chat_id in chats_id:
+            res = await session.execute(select(avitoChats).where(avitoChats.chat_id == chat_id,
+                                                                  avitoChats.user_id == user.id))
+            chat = res.scalar()
+            if chat:
+                chat.deleted = True
+                await session.commit()
+            else:
+                exceptions.append(chat_id)
+    if exceptions:
+        raise HTTPException(status_code=404, detail=f'Чат(ы) не найдены: {exceptions}')

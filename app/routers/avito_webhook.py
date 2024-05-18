@@ -1,9 +1,6 @@
-from typing import Any
-
 from fastapi import APIRouter, WebSocket, Request
 
-from app.websocket import WSManager
-#from app.schemas import WebHookReceive
+from app.websocket import ws_manager
 
 
 router = APIRouter()
@@ -19,7 +16,3 @@ async def webhook_accept(user_id: int, request: Request):
 @router.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await ws_manager.connect(websocket)
-
-
-ws_manager = WSManager()
-

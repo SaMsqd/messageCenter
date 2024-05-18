@@ -29,3 +29,6 @@ class WSManager:
                     self.connections[user_id].remove(socket)
         except KeyError:
             pass
+
+
+ws_manager = WSManager()

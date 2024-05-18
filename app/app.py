@@ -1,9 +1,7 @@
 import asyncio
-
-import time
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database.db import create_db_and_tables, recreate_db_and_tables
@@ -21,7 +19,12 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI()
+#test
+app = FastAPI(redoc_url=None,
+              openapi_url='/openapi.json',
+              docs_url='/docs',
+              root_path='/api',
+              )
 
 
 app.add_middleware(
@@ -73,6 +76,3 @@ app.include_router(
     prefix='/avito_webhook',
     tags=['avito_webhook']
 )
-
-
-uvicorn.run(app, host='0.0.0.0', port=10000)

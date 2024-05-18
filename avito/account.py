@@ -1,4 +1,5 @@
 from avito import avito_api
+from datetime import datetime
 
 
 class ProxyException(BaseException):
@@ -40,16 +41,41 @@ class AccountList:
             if account.name == account_name:
                 account.api.send_message(chat_id=chat_id, text=message)
 
+    @staticmethod
+    def get_account_name(chats):
+        names = []
+        for chat in chats:
+            if len(names) == 0:
+                names.append(chat['users'][0]['name'])
+                names.append(chat['users'][1]['name'])
+            else:
+                if chat['users'][0]['name'] in names:
+                    return chat['users'][0]['name']
+                else:
+                    return chat['users'][1]['name']
+
+    @staticmethod
+    def get_client_name(chat, account_name):
+        if chat['users'][0]['name'] == account_name:
+            return chat['users'][1]['name']
+        else:
+            return chat['users'][0]['name']
+
     def get_chats(self):
         res = []
         for account in self.accounts:
             chats = []
+            avito_account_name = AccountList.get_account_name(account.api.chats_queue)
             for chat in account.api.chats_queue:
                 last_message = account.api.get_last_message(chat['id'])
+                time = int(last_message['messages'][0]['created'])
+                time = datetime.utcfromtimestamp(time).strftime('%d-%m-%Y')
+                last_message['messages'][0]['created'] = time
                 chats.append(
                     {chat['id']: {
                         'title': chat['context']['value']['title'],
-                        'last_message': last_message['messages'][0]
+                        'last_message': last_message['messages'][0],
+                        'client_name': AccountList.get_client_name(chat, avito_account_name),
                     }
                 })
             res.append({account.name: chats})
