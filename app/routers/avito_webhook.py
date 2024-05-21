@@ -9,7 +9,7 @@ router = APIRouter()
 @router.post('/{user_id}/accept')
 async def webhook_accept(user_id: int, request: Request):
     data = await request.json()
-    await ws_manager.broadcast(user_id, data)
+    await ws_manager.broadcast(user_id, data, 'in')
     await chat_manager.broadcast(data, direction_in=True)
 
 

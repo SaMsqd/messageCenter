@@ -71,13 +71,13 @@ class ChatManager(WSManager):
         res = dict()
         res['created'] = str(time.time())[:str(time.time()).find('.') + 3]
         res['payload'] = dict()
-        res['text'] = data['payload']['value']['content']['text']
+        res['payload']['text'] = data['payload']['value']['content']['text']
         res['payload']['value']['chat_id'] = chat_id
-        res['direction'] = 'in'
+        res['payload']['direction'] = 'in'
         try:
             for socket in self.connections[chat_id]:
                 try:
-                    await socket.send_text(json.dumps(data))
+                    await socket.send_text(json.dumps(res))
                 except RuntimeError and WebSocketDisconnect:
                     self.connections[chat_id].remove(socket)
         except KeyError:

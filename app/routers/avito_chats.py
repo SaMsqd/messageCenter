@@ -58,7 +58,7 @@ async def get_chat(chat_id: str, account_name: str, user: User = Depends(current
 @router.post('/send_message', description='Отправить сообщение в чат')
 async def send_message(chat_id: str, account_name: str, message: str, user: User = Depends(current_active_user)):
     account_name = unquote(account_name)
-    data = {'text': message, 'payload': {'value': {'chat_id': chat_id}}}
+    data = {'payload': {'value': {'chat_id': chat_id}, 'text': message}}
     account: AvitoAccountHandler = await db.get_account(account_name, user)
     await ws_manager.broadcast(user.id, data, 'out')
     await chat_manager.broadcast(data, direction_out=True)
