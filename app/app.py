@@ -9,21 +9,18 @@ from app.schemas import UserCreate, UserRead, UserUpdate
 from app.users import auth_backend, fastapi_users
 from app.routers import avito_chats, avito_accounts, avito_webhook
 
-import uvicorn
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Not needed if you setup a migration system like Alembic
     await create_db_and_tables()
     yield
 
 
-#test
 app = FastAPI(redoc_url=None,
               openapi_url='/openapi.json',
               docs_url='/docs',
               root_path='/api',
+              title='Message Center API',
               )
 
 

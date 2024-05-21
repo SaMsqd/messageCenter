@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 from pydantic import BaseModel
 from fastapi_users import schemas
@@ -34,3 +34,7 @@ class WebHookReceive(BaseModel):
     read: int
     type: str
     user_id: int
+
+
+class ChatsReceive(BaseModel):
+    chats: List[str]
