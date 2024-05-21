@@ -44,7 +44,7 @@ jobs:
           script: |
             echo "Stop container"
             docker stop message-center
-            docker rm frontend
+            docker rm message-center
             docker image rm samsqd/message-center
             echo "Pull image"
             docker pull samsqd/message-center
