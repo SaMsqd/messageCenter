@@ -15,7 +15,6 @@ class WSManager:
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
         email = await websocket.receive_text()
-        print(email)
         user = await db.get_user(email)
         user_id = user.id
         if self.connections.get(user_id, None):
@@ -37,7 +36,7 @@ class WSManager:
 
 class ChatManager(WSManager):
     async def broadcast(self, data: dict, **kwargs):
-        chat_id = data['chat_id']
+        chat_id = data['payload']['value']['chat_id']
         try:
             for socket in self.connections[chat_id]:
                 try:
