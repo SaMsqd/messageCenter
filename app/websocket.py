@@ -23,13 +23,11 @@ class WSManager:
         else:
             self.connections[user_id] = [websocket]
         await websocket.send_text(f'Веб-сокет успешно зарегистрирован!{user_id}')
-        print('Веб-сокет зарегестрирован')
 
-    async def broadcast(self, user_id: int, data: dict, direction: str = 'in'):
+    async def broadcast(self, user_id: int, data: dict):
         try:
             for socket in self.connections[user_id]:
                 try:
-                    data['payload']['direction'] = direction
                     await socket.send_text(json.dumps(data))
                 except RuntimeError and WebSocketDisconnect:
                     self.connections[user_id].remove(socket)
@@ -38,46 +36,12 @@ class WSManager:
 
 
 class ChatManager(WSManager):
-
-    @singledispatch
-    async def broadcast(self, data: dict, direction: str = 'in', **kwargs):
-        chat_id = data['payload']['value']['chat_id']
-        try:
-            for socket in self.connections[chat_id]:
-                try:
-                    data['payload']['direction'] = direction
-                    await socket.send_text(json.dumps(data))
-                except RuntimeError and WebSocketDisconnect:
-                    self.connections[chat_id].remove(socket)
-        except KeyError:
-            pass
-
-    @broadcast.register
-    async def _(self, data: dict, direction_out: bool):
-        chat_id = data['payload']['value']['chat_id']
-        data['created'] = str(time.time())[:str(time.time()).find('.') + 3]
+    async def broadcast(self, data: dict, **kwargs):
+        chat_id = data['chat_id']
         try:
             for socket in self.connections[chat_id]:
                 try:
                     await socket.send_text(json.dumps(data))
-                except RuntimeError and WebSocketDisconnect:
-                    self.connections[chat_id].remove(socket)
-        except KeyError:
-            pass
-
-    @broadcast.register
-    async def _(self, data: dict, direction_in: bool):
-        chat_id = data['payload']['value']['chat_id']
-        res = dict()
-        res['created'] = str(time.time())[:str(time.time()).find('.') + 3]
-        res['payload'] = dict()
-        res['payload']['text'] = data['payload']['value']['content']['text']
-        res['payload']['value']['chat_id'] = chat_id
-        res['payload']['direction'] = 'in'
-        try:
-            for socket in self.connections[chat_id]:
-                try:
-                    await socket.send_text(json.dumps(res))
                 except RuntimeError and WebSocketDisconnect:
                     self.connections[chat_id].remove(socket)
         except KeyError:
