@@ -1,4 +1,5 @@
 from app.database.db import get_async_session
+from app.database.methods.chat_methods import get_account_chats
 from app.database.database_schemas import avitoAccount, avitoChats
 from sqlalchemy.future import select
 
@@ -29,20 +30,4 @@ async def account_avito_to_handler(acc: avitoAccount) -> AvitoAccountHandler:
 
 
 async def get_chats_by_account(account_name: str, user_id: int):
-    async for session in get_async_session():
-        account_res = await session.execute(select(avitoAccount).where(avitoAccount.account_name == account_name,
-                                                                       avitoAccount.user_id == user_id))
-        account_list: AccountList = AccountList()
-        account: avitoAccount = account_res.scalars().first()
-
-        if not account:
-            raise HTTPException(status_code=404, detail='Аккаунт не найден')
-
-        account: AvitoAccountHandler = await account_avito_to_handler(account)
-        account_list.add(account)
-        chats = account_list.get_chats()
-
-        if chats:
-            return chats
-        else:
-            raise HTTPException(status_code=404, detail='Чаты не найдены')
+    return get_account_chats(account_name, user_id)

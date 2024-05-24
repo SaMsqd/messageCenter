@@ -56,7 +56,7 @@ async def get_all_chats(user_id):
         return chats
 
 
-async def get_account_messages(account_name: str, user_id: int):
+async def get_account_chats(account_name: str, user_id: int):
     async for session in get_async_session():
         res = await session.execute(select(avitoAccount).where(avitoAccount.account_name == account_name,
                                                               avitoAccount.user_id == user_id))
