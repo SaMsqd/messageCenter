@@ -16,6 +16,9 @@ class WSManager:
         await websocket.accept()
         email = await websocket.receive_text()
         user = await db.get_user(email)
+        if not user:
+            await websocket.send_text('Пользователь не найден, подключение не защитано')
+            return
         user_id = user.id
         if self.connections.get(user_id, None):
             self.connections[user_id].append(websocket)
