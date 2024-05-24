@@ -30,4 +30,4 @@ async def account_avito_to_handler(acc: avitoAccount) -> AvitoAccountHandler:
 
 
 async def get_chats_by_account(account_name: str, user_id: int):
-    return get_account_chats(account_name, user_id)
+    return await get_account_chats(account_name, user_id)
