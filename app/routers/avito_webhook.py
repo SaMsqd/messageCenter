@@ -2,13 +2,14 @@ from fastapi import APIRouter, WebSocket, Request
 
 from app.websocket import ws_manager, chat_manager
 
-
 router = APIRouter()
 
 
 @router.post('/{user_id}/accept')
 async def webhook_accept(user_id: int, request: Request):
     data = await request.json()
+    data['payload']['direction'] = ['out' if data['payload']['value']['author_id'] == data['payload']['value']['user_id']
+                                    else 'in'][0]
     await ws_manager.broadcast(user_id, data)
     await chat_manager.broadcast(data)
 

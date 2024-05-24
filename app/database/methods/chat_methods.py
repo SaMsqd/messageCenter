@@ -26,6 +26,12 @@ async def get_all_chats_db(user_id: int):
         return res.scalars().all()
 
 
+async def get_account_chats_db(account_id: int):
+    async for session in get_async_session():
+        res = await session.execute(select(avitoChats).where(avitoChats.account_id == account_id))
+        return res.scalars().all()
+
+
 async def get_all_chats(user_id):
     async for session in get_async_session():
         res = await session.execute(select(avitoAccount).where(avitoAccount.user_id == user_id))
@@ -36,7 +42,37 @@ async def get_all_chats(user_id):
         chats = account_list.get_chats()
         db_chats = await get_all_chats_db(user_id)
         if len(chats) == 0:
-            return chats
+            raise HTTPException(status_code=404, detail='Не удалось получить чаты')
+        for account_name, account_data in chats[0].items():
+            for chat_data in account_data:
+                for chat_id, data in chat_data.items():
+                    if chat_id in [db_chat.chat_id for db_chat in db_chats]:
+                        data['color'] = [db_chat.color for db_chat in db_chats if db_chat.chat_id == chat_id][0]
+                        data['deleted'] = [db_chat.deleted for db_chat in db_chats if db_chat.chat_id == chat_id][0]
+                        data['client_name'] = [db_chat.client_name for db_chat in db_chats if db_chat.chat_id == chat_id][0]
+                    else:
+                        await remember_chat(data['client_name'], chat_id, account_name, user_id)
+
+        return chats
+
+
+async def get_account_messages(account_name: str, user_id: int):
+    async for session in get_async_session():
+        res = await session.execute(select(avitoAccount).where(avitoAccount.account_name == account_name,
+                                                              avitoAccount.user_id == user_id))
+        account = res.scalar()
+        account_list = AccountList()
+        if account:
+            account_list.add(await avitoaccount_db_to_avitoaccounthandler(account))
+        else:
+            raise HTTPException(status_code=404, detail='Аккаунт не найден')
+
+        chats = account_list.get_chats()
+        db_chats = await get_account_chats_db(user_id)
+
+        if len(chats) == 0:
+            raise HTTPException(status_code=404, detail='Сообщения не найдены')
+
         for account_name, account_data in chats[0].items():
             for chat_data in account_data:
                 for chat_id, data in chat_data.items():
@@ -81,7 +117,7 @@ async def get_hints(account_name: str, user: User):
         res = {'hints': []}
         for hint in hints:
             res['hints'].append(hint.hint)
-        if res['hints'] == []:
+        if not res['hints']:
             raise HTTPException(status_code=404, detail='К этому аккаунту авито не добавлено подсказок')
         return res
 
