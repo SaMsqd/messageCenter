@@ -2,6 +2,7 @@ from fastapi import APIRouter, WebSocket, Request
 
 from app.websocket import ws_manager, chat_manager
 
+
 router = APIRouter()
 
 
